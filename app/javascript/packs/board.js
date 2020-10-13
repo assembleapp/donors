@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { observer } from "mobx-react"
 import { observable, runInAction, computed } from "mobx"
+import { ChromePicker } from "react-color"
 
 const Board = observer(({ dimensions, cell, subscenes }) => (
     <Scene dimensions={dimensions}>
@@ -37,6 +38,7 @@ border: ${String(cellBorder.size) + cellBorder.measure} ${cellBorder.brush} ${ce
 
 const CellPanel = observer(() => (
     <form>
+        <Heading>change cell appearance</Heading>
         <Line>
             <SmallNumber
             onChange={(e) => runInAction(() => cellBorder.size = e.target.value)}
@@ -52,14 +54,16 @@ const CellPanel = observer(() => (
             <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="dotted" checked={cellBorder.brush === "dotted"} />pixels
         </Line>
 
-        <input
-        type="text"
-        onChange={(e) => runInAction(() => cellBorder.color = e.target.value)}
-        value={cellBorder.color}
+        <ChromePicker
+          color={cellBorder.color}
+          onChangeComplete={(color) => runInAction(() => cellBorder.color = color.hex)}
         />
     </form>
 ))
 
+const Heading = styled.h3`
+font-family: sans-serif;
+`
 const Line = styled.div``
 const SmallNumber = styled.input.attrs({
     type: "number",

@@ -25,18 +25,47 @@ margin-left: auto;
 margin-right: auto;
 `
 
-const cellBorder = observable.box("1px solid #4d4d4d")
+const cellBorder = observable({
+    size: 1,
+    measure: "px",
+    brush: "solid",
+    color: "#4d4d4d",
+})
 const Cell = computed(() => styled.div`
-border: ${cellBorder.get()};
+border: ${String(cellBorder.size) + cellBorder.measure} ${cellBorder.brush} ${cellBorder.color};
 `)
 
 const CellPanel = observer(() => (
-    <input
-    type="text"
-    onChange={(e) => runInAction(() => cellBorder.set(e.target.value))}
-    value={cellBorder.get()}
-    />
+    <form>
+        <Line>
+            <SmallNumber
+            onChange={(e) => runInAction(() => cellBorder.size = e.target.value)}
+            value={cellBorder.size}
+            />
+            <input type="radio" name="measure" onChange={(e)=> runInAction(() => cellBorder.measure = e.target.value)} value="px" checked={cellBorder.measure === "px"} />pixel
+            <input type="radio" name="measure" onChange={(e)=> runInAction(() => cellBorder.measure = e.target.value)} value="rem" checked={cellBorder.measure === "rem"} />rem
+        </Line>
+
+        <Line>
+            <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="solid" checked={cellBorder.brush === "solid"} />solid
+            <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="dashed" checked={cellBorder.brush === "dashed"} />dashed
+            <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="dotted" checked={cellBorder.brush === "dotted"} />pixels
+        </Line>
+
+        <input
+        type="text"
+        onChange={(e) => runInAction(() => cellBorder.color = e.target.value)}
+        value={cellBorder.color}
+        />
+    </form>
 ))
+
+const Line = styled.div``
+const SmallNumber = styled.input.attrs({
+    type: "number",
+})`
+width: 3rem;
+`
 
 export { CellPanel }
 export default observer(basis => <Board {...basis} subscenes={{ cell: Cell.get() }} /> );

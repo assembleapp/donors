@@ -28,7 +28,7 @@ const Scene = styled.div`
 background-color: #282c34;
 min-height: 100vh;
 display: grid;
-grid-template-columns: 30% auto 20%;
+grid-template-columns: auto 1fr auto;
 grid-gap: none;
 color: #ededed;
 `

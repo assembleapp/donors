@@ -18,8 +18,8 @@ const Board = observer(({ dimensions, cell, subscenes }) => (
 
 const Scene = styled.div`
 display: grid;
-grid-template-columns: repeat(${({dimensions}) => dimensions.x}, 2rem);
-grid-template-rows: repeat(${({dimensions}) => dimensions.y}, 2rem);
+grid-template-columns: repeat(${({dimensions}) => dimensions.x}, 1.5rem);
+grid-template-rows: repeat(${({dimensions}) => dimensions.y}, 1.5rem);
 grid-gap: 0.1rem;
 margin-left: auto;
 margin-right: auto;

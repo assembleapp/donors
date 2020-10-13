@@ -12,7 +12,7 @@ const random_choose = () => (
   ]
 )
 
-var dimensions = {x: 15, y: 15}
+var dimensions = {x: 12, y: 12}
 
 var snake = observable([
   [0,3],
@@ -62,7 +62,7 @@ autorun(() => {
       meal.replace(random_choose())
       snake.push(snake[snake.length-1])
     })
-    clockSpeed = clockSpeed * 0.9
+    clockSpeed = clockSpeed * 0.95
     runClock()
   }
 })

@@ -23,18 +23,27 @@ var snake = observable([
 
 var meal = observable(random_choose())
 var heading = observable.box(2)
+var paused = observable.box(false)
 var clockSpeed = 500
 
 document.onkeydown = (e => {
-  const recognized_keys = {
+  const heading_keys = {
     ArrowUp: 0,
     ArrowRight: 1,
     ArrowDown: 2,
     ArrowLeft: 3,
   }
 
-  if(Object.keys(recognized_keys).indexOf(e.code) !== -1)
-    runInAction(() => heading.set(recognized_keys[e.code]))
+  if(e.code === "Space") {
+    if(paused.get())
+      runClock()
+    else
+      clearInterval(clock)
+    runInAction(() => paused.set(!paused.get()))
+  }
+
+  if(Object.keys(heading_keys).indexOf(e.code) !== -1)
+    runInAction(() => heading.set(heading_keys[e.code]))
 })
 
 var clock = null

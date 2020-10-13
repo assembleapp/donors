@@ -3,7 +3,15 @@ import styled from "styled-components"
 import { observable, autorun, toJS, runInAction } from "mobx"
 import { observer } from "mobx-react"
 
-import Board, { CellPanel } from "./board"
+import {
+  mdiChevronUp,
+  mdiChevronDown,
+  mdiChevronLeft,
+  mdiChevronRight,
+} from "@mdi/js"
+import { Icon } from "@mdi/react"
+
+import Board from "./board"
 
 const random_choose = () => (
   [
@@ -114,6 +122,15 @@ const cell = (place) => (
 const Snake = () => (
   <Scene>
       <Header>Snake Game</Header>
+      <p>
+        <Icon size={1} path={mdiChevronUp} style={{marginLeft: "1.5rem"}} />
+        <span style={{ marginLeft: "2rem" }}>pause using [spacebar]</span>
+        <br/>
+        <Icon size={1} path={mdiChevronLeft} />
+        <Icon size={1} path={mdiChevronDown} />
+        <Icon size={1} path={mdiChevronRight} />
+
+      </p>
       <Board
       dimensions={dimensions}
       cell={cell}

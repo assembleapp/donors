@@ -34,7 +34,7 @@ document.onkeydown = (e => {
   }
 
   if(Object.keys(recognized_keys).indexOf(e.code) !== -1)
-    heading.set(recognized_keys[e.code])
+    runInAction(() => heading.set(recognized_keys[e.code]))
 })
 
 var clock = null
@@ -102,26 +102,18 @@ const cell = (place) => (
   </>
 )
 
-function App() {
-  return (
-    <Application>
-      <Column></Column>
-      <Column>
-        <AppHeader>Snake Game</AppHeader>
-        <Board
-        dimensions={dimensions}
-        cell={cell}
-        />
-        <AppHeader>Score: {snake.length}</AppHeader>
-      </Column>
-      <Column>
-        <CellPanel />
-      </Column>
-    </Application>
-  );
-}
+const Snake = () => (
+  <Scene>
+      <Header>Snake Game</Header>
+      <Board
+      dimensions={dimensions}
+      cell={cell}
+      />
+      <Header>Score: {snake.length}</Header>
+  </Scene>
+)
 
-const AppHeader = styled.header`
+const Header = styled.header`
 display: flex;
 flex-direction: row;
 justify-content: center;
@@ -129,19 +121,9 @@ font-size: calc(10px + 2vmin);
 align-items: center;
 `
 
-const Column = styled.div`
-display: flex;
-flex-direction: column;
-overflow-y: scroll;
+const Scene = styled.div`
+margin-left: auto;
+margin-right: auto;
 `
 
-const Application = styled.div`
-text-align: center;
-background-color: #282c34;
-min-height: 100vh;
-display: grid;
-grid-template-columns: 30% auto 20%;
-color: #ededed;
-`
-
-export default observer(App);
+export default observer(Snake);

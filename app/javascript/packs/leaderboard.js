@@ -48,17 +48,18 @@ align-items: flex-begin;
 font-family: sans-serif;
 color: #8080a0;
 background-color: rgba(192,192,216,0.2);
+font-size: 0.8rem;
 `
 
 const Handle = styled.span`
 color: #8080d0;
-font-size: 1.5rem;
+font-size: 1rem;
 font-family: monospace;
 `
 
 const Score = styled.span`
 color: #d475a5;
-font-size: 4rem;
+font-size: 3rem;
 margin-right: 0.5rem;
 `
 

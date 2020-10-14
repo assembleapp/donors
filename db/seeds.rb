@@ -6,8 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Player.destroy_all
 Game.destroy_all
+Player.destroy_all
 
 bob = Player.create!(
     handle: "b0bby",
@@ -18,6 +18,7 @@ Game.create!(
     player: bob,
     snake: "[[0,1],[0,2],[0,3],[-1,3]]",
     score: 4,
+    pauses: 0,
     began: Time.current,
     ended: Time.current,
 )

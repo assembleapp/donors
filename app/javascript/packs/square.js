@@ -106,8 +106,6 @@ border: none;
 `
 
 const Scene = styled.div`
-background-color: #282c34;
-min-height: 100vh;
 grid-gap: none;
 color: #ededed;
 width: 12rem;

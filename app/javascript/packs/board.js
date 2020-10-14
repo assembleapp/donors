@@ -39,26 +39,32 @@ text-align: center;
 
 const CellPanel = observer(() => (
     <form>
-        <Heading>change cell border</Heading>
-        <Line>
-            <SmallNumber
-            onChange={(e) => runInAction(() => cellBorder.size = e.target.value)}
-            value={cellBorder.size}
+        <Label>
+            <Heading>change cell border</Heading>
+
+            <Label>size</Label>
+            <Line>
+                <SmallNumber
+                onChange={(e) => runInAction(() => cellBorder.size = e.target.value)}
+                value={cellBorder.size}
+                />
+                <input type="radio" name="measure" onChange={(e)=> runInAction(() => cellBorder.measure = e.target.value)} value="px" checked={cellBorder.measure === "px"} />pixel
+                <input type="radio" name="measure" onChange={(e)=> runInAction(() => cellBorder.measure = e.target.value)} value="rem" checked={cellBorder.measure === "rem"} />rem
+            </Line>
+
+            <Label>brush</Label>
+            <Line>
+                <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="solid" checked={cellBorder.brush === "solid"} />solid
+                <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="dashed" checked={cellBorder.brush === "dashed"} />dashed
+                <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="dotted" checked={cellBorder.brush === "dotted"} />pixels
+            </Line>
+
+            <Label>color</Label>
+            <SliderPicker
+                color={cellBorder.color}
+                onChangeComplete={(color) => runInAction(() => cellBorder.color = color.hex)}
             />
-            <input type="radio" name="measure" onChange={(e)=> runInAction(() => cellBorder.measure = e.target.value)} value="px" checked={cellBorder.measure === "px"} />pixel
-            <input type="radio" name="measure" onChange={(e)=> runInAction(() => cellBorder.measure = e.target.value)} value="rem" checked={cellBorder.measure === "rem"} />rem
-        </Line>
-
-        <Line>
-            <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="solid" checked={cellBorder.brush === "solid"} />solid
-            <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="dashed" checked={cellBorder.brush === "dashed"} />dashed
-            <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="dotted" checked={cellBorder.brush === "dotted"} />pixels
-        </Line>
-
-        <SliderPicker
-          color={cellBorder.color}
-          onChangeComplete={(color) => runInAction(() => cellBorder.color = color.hex)}
-        />
+        </Label>
     </form>
 ))
 
@@ -70,6 +76,12 @@ const SmallNumber = styled.input.attrs({
     type: "number",
 })`
 width: 3rem;
+`
+const Label = styled(Line)`
+margin-top: 1rem;
+margin-bottom: 0.5rem;
+border-left: 4px solid grey;
+padding-left: 0.5rem;
 `
 
 export { CellPanel }

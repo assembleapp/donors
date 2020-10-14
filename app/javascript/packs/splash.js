@@ -64,10 +64,8 @@ const Splash = () => (
                 <li>display renderers</li>
                 <li>memory addressing</li>
                 <li>machine roles</li>
-                <li>lookup hashes</li>
                 <li>images</li>
                 <li>audio</li>
-                <li>regions</li>
             </ul>
         </pre>
     </PaddedColumn>

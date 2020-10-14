@@ -9,7 +9,6 @@ ruby "2.6.3"
 
 
 gem "autoprefixer-rails"
-
 gem "bootsnap", require: false
 gem "honeybadger"
 gem "pg"
@@ -20,6 +19,7 @@ gem "recipient_interceptor"
 gem "sassc-rails"
 gem "skylight"
 gem "sprockets", ">= 3.0.0"
+gem "square.rb"
 gem "title"
 gem "tzinfo-data", platforms: [:mingw, :x64_mingw, :mswin, :jruby]
 gem "webpacker"

@@ -59,7 +59,31 @@ class SquareCardArea extends React.Component {
                         alert('Encountered errors, check browser developer console for more details');
                         return;
                     }
-                    alert(`The generated nonce is:\n${nonce}`);
+
+                    fetch('/card-nonce', {
+                        method: 'POST',
+                        headers: {
+                          'Accept': 'application/json',
+                          'Content-Type': 'application/json',
+                          'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
+                        },
+                        body: JSON.stringify({ nonce })
+                      })
+                      .catch(err => alert('error: please reload page;\n' + err) )
+                      .then(response => {
+                        if (!response.ok) {
+                          return response.json().then(errorInfo => Promise.reject(errorInfo)); //UPDATE HERE
+                        }
+                        return response.json(); //UPDATE HERE
+                      })
+                      .then(data => {
+                        console.log(data); //UPDATE HERE
+                        alert('Payment complete successfully!\nCheck browser developer console for more details');
+                      })
+                      .catch(err => {
+                        console.error(err);
+                        alert('Payment failed to complete!\nCheck browser developer console for more details');
+                      });
                 }
             }
           });

@@ -13,6 +13,9 @@ class SquareCardArea extends React.Component {
     render = () => (
         <Scene>
             <Icon size={2} path={mdiCreditCardOutline} color="#194d33" />
+            <Appeal>
+            help us bloom beyond our humble beginnings.
+            </Appeal>
 
             <div id="sq-card-number"></div>
             <div id="sq-expiration-date"></div>
@@ -95,6 +98,11 @@ class SquareCardArea extends React.Component {
           });
     }
 }
+
+const Appeal = styled.div`
+font-family: sans-serif;
+margin-bottom: 0.5rem;
+`
 
 const AddCard = styled.button`
 width: 100%;

@@ -34,6 +34,7 @@ const cellBorder = observable({
 })
 const Cell = computed(() => styled.div`
 border: ${String(cellBorder.size) + cellBorder.measure} ${cellBorder.brush} ${cellBorder.color};
+text-align: center;
 `)
 
 const CellPanel = observer(() => (

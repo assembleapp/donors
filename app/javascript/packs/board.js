@@ -48,8 +48,8 @@ const CellPanel = observer(() => (
                 onChange={(e) => runInAction(() => cellBorder.size = e.target.value)}
                 value={cellBorder.size}
                 />
-                <input type="radio" name="measure" onChange={(e)=> runInAction(() => cellBorder.measure = e.target.value)} value="px" checked={cellBorder.measure === "px"} />pixel
-                <input type="radio" name="measure" onChange={(e)=> runInAction(() => cellBorder.measure = e.target.value)} value="rem" checked={cellBorder.measure === "rem"} />rem
+                <input type="radio" name="measure" onChange={(e)=> runInAction(() => { if(cellBorder.measure != e.target.value) cellBorder.size = Math.round(cellBorder.size * 16); cellBorder.measure = e.target.value })} value="px" checked={cellBorder.measure === "px"} />pixel
+                <input type="radio" name="measure" onChange={(e)=> runInAction(() => { if(cellBorder.measure != e.target.value) cellBorder.size /= 16; cellBorder.measure = e.target.value })} value="rem" checked={cellBorder.measure === "rem"} />rem
             </Line>
 
             <Label>brush</Label>

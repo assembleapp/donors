@@ -41,7 +41,17 @@ const Splash = () => (
     </Column>
 
     <PaddedColumn>
+        <pre>
+        made using an original programming engine<br/>
+        named <Code>hierarch</Code>,<br/>
+        enabling in-game code changes.
+        </pre>
         <CellPanel />
+        <pre>
+        <Code>hierarch</Code> shall be released<br/>
+        as an open-source codebase someday,<br/>
+        should our company succeed.
+        </pre>
     </PaddedColumn>
 </Scene>
 )
@@ -73,6 +83,11 @@ const signIn = () => {
 
 const chargeCard = () => {
 }
+
+const Code = styled.code`
+display: inline;
+color: #8c8cd0;
+`
 
 const Appeal = styled.div`
 font-family: sans-serif;

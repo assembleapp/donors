@@ -2,21 +2,11 @@ import React from 'react';
 import styled from "styled-components"
 import { observer } from "mobx-react"
 
-import {
-    mdiCreditCardOutline,
-  } from "@mdi/js"
-  import { Icon } from "@mdi/react"
-
 class SquareCardArea extends React.Component {
     paymentForm = null
 
     render = () => (
         <Scene>
-            <Icon size={2} path={mdiCreditCardOutline} color="#194d33" />
-            <Appeal>
-            help us bloom beyond our humble beginnings.
-            </Appeal>
-
             <div id="sq-card-number"></div>
             <div id="sq-expiration-date"></div>
             <div id="sq-cvv"></div>
@@ -69,7 +59,7 @@ class SquareCardArea extends React.Component {
                         return;
                     }
 
-                    fetch('/card-nonce', {
+                    fetch('/card/nonce', {
                         method: 'POST',
                         headers: {
                           'Accept': 'application/json',
@@ -99,11 +89,6 @@ class SquareCardArea extends React.Component {
     }
 }
 
-const Appeal = styled.div`
-font-family: sans-serif;
-margin-bottom: 0.5rem;
-`
-
 const AddCard = styled.button`
 width: 100%;
 padding: 0.5rem;
@@ -117,7 +102,7 @@ const Scene = styled.div`
 grid-gap: none;
 color: #ededed;
 width: 12rem;
-padding: 2rem;
+padding: 1rem;
 `
 
 export default observer(SquareCardArea)

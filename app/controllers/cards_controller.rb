@@ -19,11 +19,13 @@ class CardsController < ApplicationController
         #  :preferences=>{:email_unsubscribed=>false},
         #  :creation_source=>"THIRD_PARTY"}>
 
-         customer_id = response.data[:customer][:id]
+        customer_id = response.data[:customer][:id]
         response = client.customers.create_customer_card(customer_id: customer_id, body: {
             card_nonce: params.require(:nonce),
         })
+    end
 
+    def charge
         # response.success?
         # response.error?
         card = response.data[:card]

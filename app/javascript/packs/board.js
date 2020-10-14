@@ -30,7 +30,7 @@ const cellBorder = observable({
     size: 1,
     measure: "px",
     brush: "solid",
-    color: "#4d4d4d",
+    color: "#2d7386",
 })
 const Cell = computed(() => styled.div`
 border: ${String(cellBorder.size) + cellBorder.measure} ${cellBorder.brush} ${cellBorder.color};

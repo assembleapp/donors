@@ -3,12 +3,14 @@ import styled from "styled-components"
 import { observable, autorun, toJS, runInAction } from "mobx"
 import { observer } from "mobx-react"
 
+import SquareCardArea from "./square"
 import { CellPanel } from "./board"
 import Snake from "./snake"
 
 const Splash = () => (
 <Scene>
     <Column>
+        <SquareCardArea/>
     </Column>
     <Column>
         <Snake/>

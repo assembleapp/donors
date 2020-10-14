@@ -11,6 +11,7 @@
   <title><%= title %></title>
   <%= stylesheet_link_tag :application, media: "all" %>
   <%= csrf_meta_tags %>
+  <meta name="square-key" content="<%= ENV.fetch("SQUARE_KEY") %>" />
 </head>
 <body>
   <%= render "flashes" -%>

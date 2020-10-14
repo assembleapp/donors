@@ -50,6 +50,14 @@ document.onkeydown = (e => {
     runInAction(() => paused.set(!paused.get()))
   }
 
+  if(e.code === "KeyR") {
+    runInAction(() =>
+      snake.replace([[0,3],[0,2],[0,1],[0,0]])
+    )
+    clockSpeed = 500
+    runClock()
+  }
+
   if(Object.keys(heading_keys).indexOf(e.code) !== -1)
     runInAction(() => heading.set(heading_keys[e.code]))
 })
@@ -124,11 +132,12 @@ const Snake = () => (
       <Header>Snake Game</Header>
       <p>
         <Icon size={1} path={mdiChevronUp} style={{marginLeft: "1.5rem"}} />
-        <span style={{ marginLeft: "2rem" }}>pause using [spacebar]</span>
+        <Command style={{ marginLeft: "2rem" }}>pause using [spacebar]</Command>
         <br/>
         <Icon size={1} path={mdiChevronLeft} />
         <Icon size={1} path={mdiChevronDown} />
         <Icon size={1} path={mdiChevronRight} />
+        <Command style={{ marginLeft: "0.5rem" }}>reload using [r]</Command>
 
       </p>
       <Board
@@ -145,6 +154,11 @@ flex-direction: row;
 justify-content: center;
 font-size: calc(10px + 2vmin);
 align-items: center;
+`
+const Command = styled.span`
+font-family: sans-serif;
+font-weight: 100;
+vertical-align: super;
 `
 
 const Scene = styled.div`

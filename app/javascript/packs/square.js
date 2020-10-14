@@ -1,21 +1,27 @@
 import React from 'react';
 import styled from "styled-components"
-import { observable, autorun, toJS, runInAction } from "mobx"
 import { observer } from "mobx-react"
+
+import {
+    mdiCreditCardOutline,
+  } from "@mdi/js"
+  import { Icon } from "@mdi/react"
 
 class SquareCardArea extends React.Component {
     paymentForm = null
 
     render = () => (
         <Scene>
-            <div id="form-container">
-                <div id="sq-card-number"></div>
-                <div id="sq-expiration-date"></div>
-                <div id="sq-cvv"></div>
-                <div id="sq-postal-code"></div>
-                <button id="sq-creditcard" 
-                    onClick={(e) => {e.preventDefault(); this.paymentForm.requestCardNonce()}} >Pay $1.00</button>
-            </div> 
+            <Icon size={2} path={mdiCreditCardOutline} color="#194d33" />
+
+            <div id="sq-card-number"></div>
+            <div id="sq-expiration-date"></div>
+            <div id="sq-cvv"></div>
+            <div id="sq-postal-code"></div>
+
+            <AddCard onClick={(e) => {e.preventDefault(); this.paymentForm.requestCardNonce()}} >
+                Add card
+            </AddCard>
         </Scene>
     )
 
@@ -27,25 +33,25 @@ class SquareCardArea extends React.Component {
             inputStyles: [{
                 fontSize: '16px',
                 lineHeight: '24px',
-                padding: '16px',
                 placeholderColor: '#a0a0a0',
-                backgroundColor: 'transparent',
+                color: '#e0e0e0',
+                backgroundColor: 'rgba(212, 196, 196, 0.2)',
             }],
             cardNumber: {
                 elementId: 'sq-card-number',
-                placeholder: 'Card Number'
+                placeholder: 'bank card number'
             },
             cvv: {
                 elementId: 'sq-cvv',
-                placeholder: 'CVV'
+                placeholder: 'secure card code - ###'
             },
             expirationDate: {
                 elementId: 'sq-expiration-date',
-                placeholder: 'MM/YY'
+                placeholder: 'mm/yy'
             },
             postalCode: {
                 elementId: 'sq-postal-code',
-                placeholder: 'Postal'
+                placeholder: 'ZIP code'
             },
             // SqPaymentForm callback functions
             callbacks: {
@@ -90,18 +96,22 @@ class SquareCardArea extends React.Component {
     }
 }
 
-const Column = styled.div`
-display: flex;
-flex-direction: column;
+const AddCard = styled.button`
+width: 100%;
+padding: 0.5rem;
+background-color: rgba(196, 196, 212, 0.6);
+border-radius: 4px;
+outline: none;
+border: none;
 `
 
 const Scene = styled.div`
 background-color: #282c34;
 min-height: 100vh;
-display: grid;
-grid-template-columns: auto 1fr auto;
 grid-gap: none;
 color: #ededed;
+width: 12rem;
+padding: 2rem;
 `
 
 export default observer(SquareCardArea)

@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { observer } from "mobx-react"
 import { observable, runInAction, computed } from "mobx"
-import { ChromePicker } from "react-color"
+import { SliderPicker } from "react-color"
 
 const Board = observer(({ dimensions, cell, subscenes }) => (
     <Scene dimensions={dimensions}>
@@ -55,7 +55,7 @@ const CellPanel = observer(() => (
             <input type="radio" name="brush" onChange={(e)=> runInAction(() => cellBorder.brush = e.target.value)} value="dotted" checked={cellBorder.brush === "dotted"} />pixels
         </Line>
 
-        <ChromePicker
+        <SliderPicker
           color={cellBorder.color}
           onChangeComplete={(color) => runInAction(() => cellBorder.color = color.hex)}
         />

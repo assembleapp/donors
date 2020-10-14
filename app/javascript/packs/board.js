@@ -71,14 +71,17 @@ const CellPanel = observer(() => (
 const Heading = styled.h3`
 font-family: sans-serif;
 `
-const Line = styled.div``
+
+const Line = styled.div`
+margin-top: 1rem;
+`
+
 const SmallNumber = styled.input.attrs({
     type: "number",
 })`
 width: 3rem;
 `
 const Label = styled(Line)`
-margin-top: 1rem;
 margin-bottom: 0.5rem;
 border-left: 4px solid grey;
 padding-left: 0.5rem;

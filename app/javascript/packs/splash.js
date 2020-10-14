@@ -17,7 +17,7 @@ const Splash = () => (
 <Scene>
     <PaddedColumn>
         <Appeal>
-            help us expand<br/>
+            please help us expand<br/>
             beyond our humble beginnings.
         </Appeal>
 
@@ -48,9 +48,27 @@ const Splash = () => (
         </pre>
         <CellPanel />
         <pre>
+        should our company succeed,<br/>
         <Code>hierarch</Code> shall be released<br/>
-        as an open-source codebase someday,<br/>
-        should our company succeed.
+        as an open-source codebase someday.<br/>
+        our design plan includes:<br/>
+            <ul>
+                <li>clock</li>
+                <li>scene graph</li>
+                <li>decision graph</li>
+                <li>grid algebra</li>
+                <li>logic blocks</li>
+                <li>procedures</li>
+                <li>channels</li>
+                <li>shapes</li>
+                <li>display renderers</li>
+                <li>memory addressing</li>
+                <li>machine roles</li>
+                <li>lookup hashes</li>
+                <li>images</li>
+                <li>audio</li>
+                <li>regions</li>
+            </ul>
         </pre>
     </PaddedColumn>
 </Scene>
@@ -58,7 +76,7 @@ const Splash = () => (
 
 const HandleArea = () => (
     <Area>
-        <Query type="text" placeholder="player handle" />
+        <Query type="text" placeholder="player handle (public)" />
         <Query type="text" placeholder="email address" />
         <SignIn onClick={(e) => { e.preventDefault(); signIn()}} >
             Sign in

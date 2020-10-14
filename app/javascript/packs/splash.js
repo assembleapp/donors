@@ -22,7 +22,10 @@ const Splash = () => (
 
         <HandleArea/>
 
-        <Icon size={2} path={mdiCreditCardOutline} color="#2d7386" />
+        <Line>
+            <Icon size={2} path={mdiCreditCardOutline} color="#2d7386" />
+            <Balance>your balance: $0</Balance>
+        </Line>
 
         <SquareCardArea/>
         <ChargeArea/>
@@ -30,9 +33,9 @@ const Splash = () => (
     <Column>
         <Snake/>
     </Column>
-    <Column>
+    <PaddedColumn>
         <CellPanel />
-    </Column>
+    </PaddedColumn>
 </Scene>
 )
 
@@ -69,6 +72,10 @@ font-family: sans-serif;
 margin-bottom: 0.5rem;
 `
 
+const Balance = styled.span`
+font-family: sans-serif;
+`
+
 const Query = styled.input`
 font-size: 16px;
 line-height: 24px;
@@ -80,6 +87,14 @@ background-color: rgba(212, 196, 196, 0.2);
 border: none;
 margin-bottom: 0.2rem;
 outline: none;
+`
+
+const Line = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 1rem;
 `
 
 const Column = styled.div`
@@ -95,7 +110,7 @@ const Scene = styled.div`
 background-color: #282c34;
 min-height: 100vh;
 display: grid;
-grid-template-columns: 1fr 1fr 1fr;
+grid-template-columns: auto 1fr auto;
 grid-gap: none;
 color: #ededed;
 `

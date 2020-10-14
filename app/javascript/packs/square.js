@@ -40,11 +40,11 @@ class SquareCardArea extends React.Component {
             },
             expirationDate: {
                 elementId: 'sq-expiration-date',
-                placeholder: 'mm/yy'
+                placeholder: 'expires - mm/yy'
             },
             postalCode: {
                 elementId: 'sq-postal-code',
-                placeholder: 'ZIP code'
+                placeholder: 'ZIP code - #####'
             },
             // SqPaymentForm callback functions
             callbacks: {

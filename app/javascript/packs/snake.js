@@ -130,7 +130,7 @@ const cell = (place) => (
 
 const Snake = () => (
   <Scene>
-      <Header>Snake Game</Header>
+      <Header>snake -~~~~~o<Red>-&lt;</Red></Header>
       <p>
         <Icon size={1} path={mdiChevronUp} style={{marginLeft: "1.5rem"}} />
         <Command style={{ marginLeft: "2rem" }}>pause using [spacebar]</Command>
@@ -148,6 +148,11 @@ const Snake = () => (
       <Header>Score: {snake.length}</Header>
   </Scene>
 )
+
+const Red = styled.span`
+color: red;
+font-size: 0.5rem;
+`
 
 const Header = styled.header`
 display: flex;

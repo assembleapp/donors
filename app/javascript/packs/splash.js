@@ -11,6 +11,7 @@ import { Icon } from "@mdi/react"
 import SquareCardArea from "./square"
 import { CellPanel } from "./board"
 import Snake from "./snake"
+import LeaderBoard from "./leaderboard"
 
 const Splash = () => (
 <Scene>
@@ -30,9 +31,15 @@ const Splash = () => (
         <SquareCardArea/>
         <ChargeArea/>
     </PaddedColumn>
+
+    <Column>
+        <LeaderBoard/>
+    </Column>
+
     <Column>
         <Snake/>
     </Column>
+
     <PaddedColumn>
         <CellPanel />
     </PaddedColumn>
@@ -110,7 +117,7 @@ const Scene = styled.div`
 background-color: #282c34;
 min-height: 100vh;
 display: grid;
-grid-template-columns: auto 1fr auto;
+grid-template-columns: auto 1fr 2fr auto;
 grid-gap: none;
 color: #ededed;
 `

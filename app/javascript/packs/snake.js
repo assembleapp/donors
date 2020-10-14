@@ -51,9 +51,10 @@ document.onkeydown = (e => {
   }
 
   if(e.code === "KeyR") {
-    runInAction(() =>
+    runInAction(() => {
       snake.replace([[0,3],[0,2],[0,1],[0,0]])
-    )
+      heading.set(2)
+    })
     clockSpeed = 500
     runClock()
   }

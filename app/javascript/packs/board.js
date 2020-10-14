@@ -38,7 +38,7 @@ border: ${String(cellBorder.size) + cellBorder.measure} ${cellBorder.brush} ${ce
 
 const CellPanel = observer(() => (
     <form>
-        <Heading>change cell appearance</Heading>
+        <Heading>change cell border</Heading>
         <Line>
             <SmallNumber
             onChange={(e) => runInAction(() => cellBorder.size = e.target.value)}

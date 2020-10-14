@@ -42,18 +42,17 @@ const Splash = () => (
 
     <PaddedColumn>
         <pre>
-        made using an original programming engine<br/>
+        programmed using an engine<br/>
         named <Code>hierarch</Code>,<br/>
         enabling in-game code changes.
         </pre>
         <CellPanel />
         <pre>
-        should our company succeed,<br/>
+        should our business succeed,<br/>
         <Code>hierarch</Code> shall be released<br/>
-        as an open-source codebase someday.<br/>
+        as an open-source codebase.<br/>
         our design plan includes:<br/>
             <ul>
-                <li>clock</li>
                 <li>scene graph</li>
                 <li>decision graph</li>
                 <li>grid algebra</li>
@@ -63,9 +62,10 @@ const Splash = () => (
                 <li>shapes</li>
                 <li>display renderers</li>
                 <li>memory addressing</li>
-                <li>machine roles</li>
-                <li>images</li>
-                <li>audio</li>
+                <li>roles and permissions</li>
+                <li>image processing</li>
+                <li>audio processing</li>
+                <li>clock loops</li>
             </ul>
         </pre>
     </PaddedColumn>
@@ -138,6 +138,7 @@ padding: 1rem;
 const Column = styled.div`
 display: flex;
 flex-direction: column;
+padding-top: 1rem;
 `
 
 const PaddedColumn = styled(Column)`

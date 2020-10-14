@@ -25,8 +25,11 @@ const LeaderBoard = () => (
       {leaders.map(l => (
         <Leader key={l.handle}>
           <Score>{l.score}</Score>
-          by {l.handle}<br/>
-          {l.ended} using {l.pauses} pauses
+          <span>
+          <Handle>{l.handle}</Handle><br/>
+          using {l.pauses} pauses<br/>
+          {l.ended.split("T")[0]}
+          </span>
         </Leader>
       ))}
   </Scene>
@@ -35,19 +38,27 @@ const LeaderBoard = () => (
 pullLeaders()
 
 const Leader = styled.div`
-padding: 1rem;
-border: 1px solid #8484d8;
+padding: 0.5rem;
+width: 100%;
+margin-top: 1rem;
+border: 2px solid #8080a0;
 border-radius: 4px;
-margin-bottom: 0.5rem;
 display: flex;
 align-items: flex-begin;
+font-family: sans-serif;
+color: #8080a0;
+background-color: rgba(192,192,216,0.2);
 `
 
 const Handle = styled.span`
+color: #8080d0;
+font-size: 1.5rem;
+font-family: monospace;
 `
 
 const Score = styled.span`
-font-size: 3rem;
+color: #d475a5;
+font-size: 4rem;
 margin-right: 0.5rem;
 `
 
@@ -66,8 +77,6 @@ align-items: center;
 `
 
 const Scene = styled.div`
-margin-left: auto;
-margin-right: auto;
 `
 
 export default observer(LeaderBoard);

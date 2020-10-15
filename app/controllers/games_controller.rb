@@ -4,7 +4,7 @@ class GamesController < ApplicationController
             leaderboard: Game.
                 includes(:player).
                 order(score: :desc).
-                limit(4).
+                limit(6).
                 map {|g| {
                     ended: g.ended,
                     handle:  g.player.handle,
@@ -16,8 +16,12 @@ class GamesController < ApplicationController
     end
 
     def create
-        Game.create!(game_params.merge(player: session_hash.player, ended: Time.current))
-        render json: { success: "yes" }
+        if(session_hash)
+            Game.create!(game_params.merge(player: session_hash.player, ended: Time.current))
+            render json: { success: "yes" }
+        else
+            render json: { success: "no" }
+        end
     end
 
     private

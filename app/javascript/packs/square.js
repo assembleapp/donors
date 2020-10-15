@@ -7,6 +7,26 @@ class SquareCardArea extends React.Component {
 
     render = () => (
         <Observer>{() => (
+            this.props.session.player && this.props.session.player.card_summary
+            ?
+            <Scene player={this.props.session.player}>
+                using card:
+                <Card>
+                    {this.props.session.player.card_summary}<br/>
+                    <Link onClick={() => {
+                        fetch("/card", {
+                            method: "DELETE",
+                            headers: {
+                              'Accept': 'application/json',
+                              'Content-Type': 'application/json',
+                              'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
+                              'Authorization': localStorage.getItem("code"),
+                            },
+                        }).then(() => window.location = window.location)
+                    }}>change card</Link>
+                </Card>
+            </Scene>
+            :
             <Scene player={this.props.session.player}>
                 <div id="sq-card-number"></div>
                 <div id="sq-expiration-date"></div>
@@ -20,7 +40,7 @@ class SquareCardArea extends React.Component {
         )}</Observer>
     )
 
-    componentDidMount = () => {
+    componentDidMount = () => {        
         this.paymentForm = new SqPaymentForm({
             applicationId: document.querySelector("meta[name='square-key']").content,
             inputClass: 'sq-input',
@@ -50,7 +70,7 @@ class SquareCardArea extends React.Component {
             },
             // SqPaymentForm callback functions
             callbacks: {
-                cardNonceResponseReceived: function (errors, nonce, cardData) {
+                cardNonceResponseReceived: (errors, nonce, cardData) => {
                     if (errors) {
                         // Log errors from nonce generation to the browser developer console.
                         console.error('Encountered errors:');
@@ -67,6 +87,7 @@ class SquareCardArea extends React.Component {
                           'Accept': 'application/json',
                           'Content-Type': 'application/json',
                           'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
+                          'Authorization': localStorage.getItem("code"),
                         },
                         body: JSON.stringify({ nonce })
                       })
@@ -78,8 +99,7 @@ class SquareCardArea extends React.Component {
                         return response.json(); //UPDATE HERE
                       })
                       .then(data => {
-                        console.log(data); //UPDATE HERE
-                        alert('Payment complete successfully!\nCheck browser developer console for more details');
+                          window.location = window.location // reload page
                       })
                       .catch(err => {
                         console.error(err);
@@ -107,6 +127,15 @@ width: 12rem;
 padding: 1rem;
 visibility: ${({player}) => player ? "visible" : "hidden"};
 height: ${({player}) => player ? "auto" : "0px"};
+`
+
+const Card = styled.div`
+border-radius: 4px;
+border: 1px solid grey;
+`
+
+const Link = styled.a`
+color: rgb(196, 196, 216);
 `
 
 export default observer(SquareCardArea)

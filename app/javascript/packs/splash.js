@@ -27,7 +27,7 @@ const Splash = () => (
 
         <Line>
             <Icon size={2} path={mdiCreditCardOutline} color="#2d7386" />
-            <Balance>your balance: $0</Balance>
+            <Balance>your balance: ${session.player ? (session.player.balance / 100.0).toFixed(2) : 0.00}</Balance>
         </Line>
 
         <SquareCardArea session={session} />
@@ -78,9 +78,8 @@ const ChargeArea = observer(({ session }) => (
     session.player && session.player.card_summary
     ?
         <Area>
-            <Query type="text" placeholder="lump sum or daily sum" />
-            <Query type="text" placeholder="discord access" />
-            <Query type="text" placeholder="charge price" />
+            <Query type="text" placeholder="add money (in USD)" value={price.get()}
+            onChange={(e) => runInAction(() => price.set(e.target.value))} />
         
             <ChargeCard onClick={(e) => {e.preventDefault(); chargeCard()}} >
             Charge card
@@ -93,10 +92,21 @@ const ChargeArea = observer(({ session }) => (
         </Area>
 ))
 
-const signIn = () => {
-}
+const price = observable.box("5.00")
 
 const chargeCard = () => {
+    fetch("/card/charge", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
+            'Authorization': localStorage.getItem("code"),
+        },
+        body: JSON.stringify({
+            charge: { price: price.get() },
+        }),
+    }).then(() => window.location = window.location)
 }
 
 const Code = styled.code`

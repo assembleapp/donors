@@ -3,49 +3,72 @@ require "securerandom"
 
 class CardsController < ApplicationController
     def nonce
+        unless session_hash
+            render json: { success: "no" }
+            return
+        end
+
+        player = session_hash.player
+        
         client = Square::Client.new(
             access_token: ENV.fetch("SQUARE_ACCESS"),
             environment: Rails.env.development? ? 'sandbox' : 'production',
         )
-        response = client.customers.create_customer(body: { email_address: "a@b.com" })
-        # response.success?
-        # response.error?
+        response = client.customers.create_customer_card(
+            customer_id: player.square_number,
+            body: {
+                card_nonce: params.require(:nonce),
+            },
+        )
 
-        # response.data.customer=
-        # {:id=>"0HK489VNJ0S5Z0K6BZE0848T2G",
-        #  :created_at=>"2020-10-14T02:36:49.671Z",
-        #  :updated_at=>"2020-10-14T02:36:50Z",
-        #  :email_address=>"a@b.com",
-        #  :preferences=>{:email_unsubscribed=>false},
-        #  :creation_source=>"THIRD_PARTY"}>
-
-        customer_id = response.data[:customer][:id]
-        response = client.customers.create_customer_card(customer_id: customer_id, body: {
-            card_nonce: params.require(:nonce),
-        })
+        if response.success?
+            card = response.data[:card]
+            player.update!(
+                card_square_number: card[:id],
+                card_summary: "#{card[:card_brand]} ...#{card[:last_4]} expiring #{card[:exp_month]}/#{card[:exp_year]}",
+            )
+            render json: { success: "yes" }
+        else
+            require "pry"; binding.pry
+            render json: { success: "no" }
+        end
     end
 
     def charge
-        # response.success?
-        # response.error?
-        card = response.data[:card]
-        # card.id,
-        # card.card_brand,
-        # card.last_4,
-        # card.exp_month,
-        # card.exp_year
+        unless session_hash && session_hash.player.card_square_number
+            render json: { success: "no" }
+            return
+        end
+
         payment_idempotency = SecureRandom.uuid
+        price = (params.require(:charge).permit(:price)[:price].to_f * 100).to_i
+
+        client = Square::Client.new(
+            access_token: ENV.fetch("SQUARE_ACCESS"),
+            environment: Rails.env.development? ? 'sandbox' : 'production',
+        )
         response = client.payments.create_payment( body: {
-            source_id: card[:id],
+            source_id: session_hash.player.card_square_number,
             idempotency_key: payment_idempotency,
             amount_money: {
-                amount: 1,
+                amount: price,
                 currency: 'USD',
             },
-            customer_id: customer_id,
+            customer_id: session_hash.player.square_number,
             # reference_id: Charge.find(charge_id).square_id
         })
-        # response.success?
+        if response.success?
+            Charge.create!(
+                player: session_hash.player,
+                card_summary: session_hash.player.card_summary,
+                price: price,
+                square_number: response.data.payment[:id],
+                square_link: response.data.payment[:receipt_url],
+            )
+            render json: { success: "yes" }
+        else
+            render json: { success: "no" }
+        end
         # response.error?
 
         # response.data.payment=
@@ -79,5 +102,14 @@ class CardsController < ApplicationController
         #  :delay_action=>"CANCEL",
         #  :delayed_until=>"2020-10-21T02:28:57.846Z"}>
         render json: response.data.payment
+    end
+
+    def destroy
+        unless session_hash
+            render json: { success: "no" }
+            return
+        end
+
+        session_hash.player.update(card_square_number: nil, card_summary: nil)
     end
 end

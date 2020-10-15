@@ -19,7 +19,7 @@ const session = observable({
     player: null,
 })
 
-const pullSession = () => fetch('/sessions', {
+session.pull = () => fetch('/sessions', {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ const pullSession = () => fetch('/sessions', {
     .then(response => response.json())
     .then(response => runInAction(() => session.player = response.player ))
 
-pullSession()
+session.pull()
 
 const Session = () => {
     if(!session.player) {
@@ -37,7 +37,7 @@ const Session = () => {
             session.pending
             ?   <Paragraph>
                     Please check your email,<br/>
-                    or
+                    or&nbsp;
                     <Link href="#"
                         onClick={() => runInAction(() => {
                             session.email = null

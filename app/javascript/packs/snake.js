@@ -75,6 +75,21 @@ runClock()
 
 const endGame = () => {
   clearInterval(clock)
+
+  fetch('/games', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
+      'Authorization': localStorage.getItem("code"),
+    },
+    body: JSON.stringify({ game: {
+      snake: JSON.stringify(snake.toJSON()),
+      score: snake.length,
+      pauses: 0,
+    }})
+  })
 }
 
 autorun(() => {

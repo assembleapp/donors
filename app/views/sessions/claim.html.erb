@@ -1,0 +1,14 @@
+<% if @code %>
+<div>Signing in.</div>
+<script>
+    localStorage.setItem("code", "<%= @code %>")
+    window.location = "/"
+</script>
+<% else %>
+<p>
+<%= @error %>
+</p>
+<p>
+Please go back <a href="/">home</a> and sign in again.
+</p>
+<% end %>

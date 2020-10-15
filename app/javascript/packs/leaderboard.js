@@ -23,7 +23,7 @@ const LeaderBoard = () => (
   <Scene>
       <Header>leaderboard</Header>
       {leaders.map(l => (
-        <Leader key={l.handle}>
+        <Leader key={l.handle + "," + l.ended}>
           <Score>{l.score}</Score>
           <span>
           <Handle>{l.handle}</Handle><br/>

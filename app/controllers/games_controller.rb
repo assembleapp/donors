@@ -14,4 +14,15 @@ class GamesController < ApplicationController
                 } }
         }
     end
+
+    def create
+        Game.create!(game_params.merge(player: session_hash.player, ended: Time.current))
+        render json: { success: "yes" }
+    end
+
+    private
+
+    def game_params
+        params.require(:game).permit(:score, :pauses, :snake)
+    end
 end

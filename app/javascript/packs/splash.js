@@ -12,6 +12,7 @@ import SquareCardArea from "./square"
 import { CellPanel } from "./board"
 import Snake from "./snake"
 import LeaderBoard from "./leaderboard"
+import Session from "./session"
 
 const Splash = () => (
 <Scene>
@@ -21,7 +22,7 @@ const Splash = () => (
             beyond our humble beginnings.
         </Appeal>
 
-        <HandleArea/>
+        <Session/>
 
         <Line>
             <Icon size={2} path={mdiCreditCardOutline} color="#2d7386" />
@@ -70,16 +71,6 @@ const Splash = () => (
         </pre>
     </PaddedColumn>
 </Scene>
-)
-
-const HandleArea = () => (
-    <Area>
-        <Query type="text" placeholder="player handle (public)" />
-        <Query type="text" placeholder="email address" />
-        <SignIn onClick={(e) => { e.preventDefault(); signIn()}} >
-            Sign in
-        </SignIn>
-    </Area>
 )
 
 const ChargeArea = () => (
@@ -162,15 +153,6 @@ width: 12rem;
 `
 
 const ChargeCard = styled.button`
-width: 100%;
-padding: 0.5rem;
-background-color: rgba(196, 196, 212, 0.6);
-border-radius: 4px;
-outline: none;
-border: none;
-`
-
-const SignIn = styled.button`
 width: 100%;
 padding: 0.5rem;
 background-color: rgba(196, 196, 212, 0.6);

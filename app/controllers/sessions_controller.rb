@@ -20,6 +20,10 @@ class SessionsController < ApplicationController
         render json: { success: 'yes' }
     end
 
+    def index
+        render json: { code: session_hash.code, player: session_hash.player }
+    end
+
     def claim
         session = Session.find_by(code: params[:code])
 

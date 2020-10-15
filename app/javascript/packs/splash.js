@@ -5,6 +5,7 @@ import { observer } from "mobx-react"
 
 import {
     mdiCreditCardOutline,
+    mdiChevronUp,
 } from "@mdi/js"
 import { Icon } from "@mdi/react"
 
@@ -12,7 +13,7 @@ import SquareCardArea from "./square"
 import { CellPanel } from "./board"
 import Snake from "./snake"
 import LeaderBoard from "./leaderboard"
-import Session from "./session"
+import Session, { session } from "./session"
 
 const Splash = () => (
 <Scene>
@@ -29,8 +30,8 @@ const Splash = () => (
             <Balance>your balance: $0</Balance>
         </Line>
 
-        <SquareCardArea/>
-        <ChargeArea/>
+        <SquareCardArea session={session} />
+        <ChargeArea session={session} />
     </PaddedColumn>
 
     <Column>
@@ -73,17 +74,24 @@ const Splash = () => (
 </Scene>
 )
 
-const ChargeArea = () => (
-    <Area>
-        <Query type="text" placeholder="lump sum or daily sum" />
-        <Query type="text" placeholder="discord access" />
-        <Query type="text" placeholder="charge price" />
-
-        <ChargeCard onClick={(e) => {e.preventDefault(); chargeCard()}} >
+const ChargeArea = observer(({ session }) => (
+    session.player && session.player.card_summary
+    ?
+        <Area>
+            <Query type="text" placeholder="lump sum or daily sum" />
+            <Query type="text" placeholder="discord access" />
+            <Query type="text" placeholder="charge price" />
+        
+            <ChargeCard onClick={(e) => {e.preventDefault(); chargeCard()}} >
             Charge card
-        </ChargeCard>
-    </Area>
-)
+            </ChargeCard>
+        </Area>
+    :
+        <Area>
+            <Icon size={1} path={mdiChevronUp} />
+            {session.player ? "Add" : "Sign in and add"} a bank card.
+        </Area>
+))
 
 const signIn = () => {
 }

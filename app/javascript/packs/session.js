@@ -19,22 +19,34 @@ const session = observable({
     player: null,
 })
 
+const pullSession = () => fetch('/sessions', {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
+      'Authorization': localStorage.getItem("code"),
+    }})
+    .then(response => response.json())
+    .then(response => runInAction(() => session.player = response.player ))
+
+pullSession()
+
 const Session = () => {
     if(!session.player) {
         return (
             session.pending
-            ?   <div>
+            ?   <Paragraph>
                     Please check your email,<br/>
                     or
-                    <a href="#"
+                    <Link href="#"
                         onClick={() => runInAction(() => {
                             session.email = null
                             session.handle = null
                             session.pending = false
                             session.player = null
                         })}
-                    >sign in again</a>.
-                </div>
+                    >sign in again</Link>.
+                </Paragraph>
             :
                 <Area>
                     <Query
@@ -56,16 +68,21 @@ const Session = () => {
         )
     }
     return (
-        <div>
+        <Paragraph>
             Signed in as {session.player.handle}.
             <br/>
-            <a
+            <Link
             href="#"
             onClick={() => {
-                runInAction(() => session.replace({ email: null, handle: null, pending: false, player: null }));
+                runInAction(() => {
+                    session.email = null
+                    session.handle = null
+                    session.pending = false
+                    session.player = null
+                });
                 localStorage.removeItem("code")
-            }}>end session.</a>
-        </div>
+            }}>end session.</Link>
+        </Paragraph>
     )
 }
 
@@ -118,4 +135,13 @@ outline: none;
 border: none;
 `
 
+const Link = styled.a`
+color: rgb(196, 196, 216);
+`
+
+const Paragraph = styled.p`
+font-family: sans-serif;
+`
+
+export { session }
 export default observer(Session)

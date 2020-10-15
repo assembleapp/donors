@@ -1,21 +1,23 @@
 import React from 'react';
 import styled from "styled-components"
-import { observer } from "mobx-react"
+import { observer, Observer } from "mobx-react"
 
 class SquareCardArea extends React.Component {
     paymentForm = null
 
     render = () => (
-        <Scene>
-            <div id="sq-card-number"></div>
-            <div id="sq-expiration-date"></div>
-            <div id="sq-cvv"></div>
-            <div id="sq-postal-code"></div>
+        <Observer>{() => (
+            <Scene player={this.props.session.player}>
+                <div id="sq-card-number"></div>
+                <div id="sq-expiration-date"></div>
+                <div id="sq-cvv"></div>
+                <div id="sq-postal-code"></div>
 
-            <AddCard onClick={(e) => {e.preventDefault(); this.paymentForm.requestCardNonce()}} >
-                Add card
-            </AddCard>
-        </Scene>
+                <AddCard onClick={(e) => {e.preventDefault(); this.paymentForm.requestCardNonce()}} >
+                    Add card
+                </AddCard>
+            </Scene>
+        )}</Observer>
     )
 
     componentDidMount = () => {
@@ -85,7 +87,7 @@ class SquareCardArea extends React.Component {
                       });
                 }
             }
-          });
+        })
     }
 }
 
@@ -103,6 +105,8 @@ grid-gap: none;
 color: #ededed;
 width: 12rem;
 padding: 1rem;
+visibility: ${({player}) => player ? "visible" : "hidden"};
+height: ${({player}) => player ? "auto" : "0px"};
 `
 
 export default observer(SquareCardArea)

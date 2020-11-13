@@ -27,7 +27,7 @@ const LeaderBoard = () => (
           <Score>{l.score}</Score>
           <span>
           <Handle>{l.handle}</Handle><br/>
-          using {l.pauses} pauses<br/>
+          using {l.pauses} pauses and {l.speed_drops} speed drops<br/>
           {l.ended.split("T").join("\t").replace("Z", " (PMZ)")}
           </span>
         </Leader>

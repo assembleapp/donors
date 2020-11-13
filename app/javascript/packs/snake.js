@@ -36,6 +36,9 @@ var paused = observable.box(false)
 var clockSpeed = 500
 var speedReduce = 0
 
+var pauses = 0
+var speed_drops = 0
+
 document.onkeydown = (e => {
   const heading_keys = {
     ArrowUp: 0,
@@ -47,8 +50,10 @@ document.onkeydown = (e => {
   if(e.code === "Space") {
     if(paused.get())
       runClock()
-    else
+    else {
+      pauses += 1
       clearInterval(clock)
+    }
     runInAction(() => paused.set(!paused.get()))
   }
 
@@ -57,12 +62,15 @@ document.onkeydown = (e => {
       snake.replace([[0,3],[0,2],[0,1],[0,0]])
       heading.set(2)
     })
+    pauses = 0;
+    speed_drops = 0;
     clockSpeed = 500
     runClock()
   }
 
   else if (e.code === "KeyS") {
     speedReduce += 1
+    speed_drops += 1
   }
 
   else if(Object.keys(heading_keys).indexOf(e.code) !== -1)
@@ -102,9 +110,15 @@ const endGame = () => {
     body: JSON.stringify({ game: {
       snake: JSON.stringify(snake.toJSON()),
       score: snake.length,
-      pauses: 0,
+      pauses,
+      speed_drops,
     }})
-  }).then(() => pullLeaders())
+  })
+  .then(() => {
+    pauses = 0;
+    speed_drops = 0;
+  })
+  .then(() => pullLeaders())
 }
 
 autorun(() => {

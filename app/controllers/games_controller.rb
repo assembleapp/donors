@@ -10,7 +10,8 @@ class GamesController < ApplicationController
                     handle:  g.player.handle,
                     score: g.score,
                     snake: g.snake,
-                    pauses: g.pauses,
+                    pauses: g.pauses || 0,
+                    speed_drops: g.speed_drops || 0,
                 } }
         }
     end
@@ -27,6 +28,6 @@ class GamesController < ApplicationController
     private
 
     def game_params
-        params.require(:game).permit(:score, :pauses, :snake)
+        params.require(:game).permit(:score, :pauses, :snake, :speed_drops)
     end
 end

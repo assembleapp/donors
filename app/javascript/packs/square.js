@@ -56,17 +56,17 @@ class SquareCardArea extends React.Component {
                 elementId: 'sq-card-number',
                 placeholder: 'bank card number'
             },
-            cvv: {
-                elementId: 'sq-cvv',
-                placeholder: 'secure card code - ###'
-            },
             expirationDate: {
                 elementId: 'sq-expiration-date',
                 placeholder: 'expires - mm/yy'
             },
+            cvv: {
+                elementId: 'sq-cvv',
+                placeholder: 'secure card code - `123`'
+            },
             postalCode: {
                 elementId: 'sq-postal-code',
-                placeholder: 'ZIP code - #####'
+                placeholder: 'ZIP code - `12345`'
             },
             // SqPaymentForm callback functions
             callbacks: {

@@ -28,10 +28,11 @@ const LeaderBoard = () => (
           <span>
           <Handle>{l.handle}</Handle><br/>
           using {l.pauses} pauses<br/>
-          {l.ended.split("T")[0]}
+          {l.ended.split("T").join("\t").replace("Z", " (PMZ)")}
           </span>
         </Leader>
       ))}
+      <Explainer>PMZ = 'Prime Meridian Zone'; or roughly, England.</Explainer>
   </Scene>
 )
 
@@ -49,6 +50,11 @@ font-family: sans-serif;
 color: #8080a0;
 background-color: rgba(192,192,216,0.2);
 font-size: 0.8rem;
+`
+
+const Explainer = styled.div`
+margin-top: 1rem;
+color: #8080a0;
 `
 
 const Handle = styled.span`

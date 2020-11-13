@@ -115,6 +115,7 @@ const endGame = () => {
       speed_drops: speed_drops.get(),
     }})
   })
+  .then(() => session.pull())
   .then(() => {
     runInAction(() => {
       pauses.set(0);

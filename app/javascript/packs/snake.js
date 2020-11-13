@@ -176,14 +176,15 @@ const Snake = () => (
   <Scene>
       <Header>snake -~~~~~o<Red>-&lt;</Red></Header>
       <p>
-        <Icon size={1} path={mdiChevronUp} style={{marginLeft: "1.5rem"}} />
-        <Command style={{ marginLeft: "2rem" }}>pause using [spacebar]</Command>
+        <Icon size={1} color="#8080a0" path={mdiChevronUp} style={{marginLeft: "1.5rem"}} />
+        <Command style={{ marginLeft: "2rem" }}>[r] reload</Command>
         <br/>
-        <Icon size={1} path={mdiChevronLeft} />
-        <Icon size={1} path={mdiChevronDown} />
-        <Icon size={1} path={mdiChevronRight} />
-        <Command style={{ marginLeft: "0.5rem" }}>reload using [r]</Command>
-
+        <Icon size={1} color="#8080a0" path={mdiChevronLeft} />
+        <Icon size={1} color="#8080a0" path={mdiChevronDown} />
+        <Icon size={1} color="#8080a0" path={mdiChevronRight} />
+        <Command style={{ marginLeft: "0.5rem" }}>[space] pause; $0.10</Command>
+        <br/>
+        <Command style={{ marginLeft: "5rem" }}>[s] reduce speed; $0.25</Command>
       </p>
       <Board
       dimensions={dimensions}
@@ -206,9 +207,10 @@ font-size: calc(10px + 2vmin);
 align-items: center;
 `
 const Command = styled.span`
-font-family: sans-serif;
+font-family: monospace;
 font-weight: 100;
 vertical-align: super;
+color: #8080a0;
 `
 
 const Scene = styled.div`

@@ -14,9 +14,7 @@ import { CellPanel } from "./board"
 import Snake from "./snake"
 import LeaderBoard from "./leaderboard"
 import Session, { session } from "./session"
-import { pauses, speed_drops } from "./snake"
-
-autorun(() => console.log(pauses.get(), "pauses"))
+import { pauses, speed_drops, add_money } from "./snake"
 
 const Splash = () => (
 <Scene>
@@ -37,6 +35,11 @@ const Splash = () => (
 
         <SquareCardArea session={session} />
         <ChargeArea session={session} />
+
+        {add_money.get()
+        ? <AddMoney>Add money!</AddMoney>
+        : null
+        }
     </PaddedColumn>
 
     <Column>
@@ -117,6 +120,13 @@ const chargeCard = () => {
 const Code = styled.code`
 display: inline;
 color: #8c8cd0;
+`
+
+const AddMoney = styled.div`
+color: #8080a0;
+border: 4px solid #a08080;
+font-family: monospace;
+padding: 1rem;
 `
 
 const Appeal = styled.div`

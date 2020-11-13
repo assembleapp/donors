@@ -39,6 +39,17 @@ var speedReduce = 0
 
 var pauses = observable.box(0)
 var speed_drops = observable.box(0)
+var add_money = observable.box(false)
+
+const checkBalance = (price, already) => {
+  var able = (session.player.balance - (already * price)) > price
+  if(!able) {
+    runInAction(() => add_money.set(true))
+    setTimeout(() => runInAction(() => add_money.set(false)), 1000)
+  }
+  console.log("balance", able)
+  return able
+}
 
 document.onkeydown = (e => {
   const heading_keys = {
@@ -49,13 +60,15 @@ document.onkeydown = (e => {
   }
 
   if(e.code === "Space") {
-    if(paused.get())
+    if(paused.get()) {
       runClock()
-    else {
+      runInAction(() => paused.set(!paused.get()))
+    }
+    else if(checkBalance(10, pauses.get())) {
       runInAction(() => pauses.set(pauses.get() + 1))
       clearInterval(clock)
+      runInAction(() => paused.set(!paused.get()))
     }
-    runInAction(() => paused.set(!paused.get()))
   }
 
   else if(e.code === "KeyR") {
@@ -70,8 +83,10 @@ document.onkeydown = (e => {
   }
 
   else if (e.code === "KeyS") {
-    speedReduce += 1
-    runInAction(() => speed_drops.set(speed_drops.get() + 1))
+    if(checkBalance(25, speed_drops.get())) {
+      speedReduce += 1
+      runInAction(() => speed_drops.set(speed_drops.get() + 1))
+    }
   }
 
   else if(Object.keys(heading_keys).indexOf(e.code) !== -1)
@@ -222,5 +237,5 @@ margin-left: auto;
 margin-right: auto;
 `
 
-export { pauses, speed_drops }
+export { pauses, speed_drops, add_money }
 export default observer(Snake);

@@ -78,6 +78,12 @@ const Splash = () => (
                 <li>clock loops</li>
             </ul>
         </pre>
+        <pre>
+            See our&nbsp;
+            <a style={{color: "#8080a0"}} href="://github.com/assembleapp/snake/issues/1">
+                proposed game code
+            </a>.
+        </pre>
     </PaddedColumn>
 </Scene>
 )

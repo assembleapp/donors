@@ -42,7 +42,7 @@ var speed_drops = observable.box(0)
 var add_money = observable.box(false)
 
 const checkBalance = (price, already) => {
-  var able = (session.player.balance - (already * price)) > price
+  var able = (session.player.balance - (already * price)) >= price
   if(!able) {
     runInAction(() => add_money.set(true))
     setTimeout(() => runInAction(() => add_money.set(false)), 1000)

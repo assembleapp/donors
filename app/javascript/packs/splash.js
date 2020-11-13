@@ -14,6 +14,9 @@ import { CellPanel } from "./board"
 import Snake from "./snake"
 import LeaderBoard from "./leaderboard"
 import Session, { session } from "./session"
+import { pauses, speed_drops } from "./snake"
+
+autorun(() => console.log(pauses.get(), "pauses"))
 
 const Splash = () => (
 <Scene>
@@ -27,7 +30,9 @@ const Splash = () => (
 
         <Line>
             <Icon size={2} path={mdiCreditCardOutline} color="#2d7386" />
-            <Balance>your balance: ${session.player ? (session.player.balance / 100.0).toFixed(2) : 0.00}</Balance>
+            <Balance>your balance: ${session.player ? (
+                (session.player.balance - (pauses.get() * 10) - (speed_drops.get() * 25))
+            / 100.0).toFixed(2) : 0.00}</Balance>
         </Line>
 
         <SquareCardArea session={session} />

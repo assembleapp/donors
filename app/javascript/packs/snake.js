@@ -13,6 +13,7 @@ import { Icon } from "@mdi/react"
 
 import Board from "./board"
 import { pullLeaders } from "./leaderboard"
+import { session } from "./session"
 
 const random_choose = () => (
   [
@@ -36,8 +37,8 @@ var paused = observable.box(false)
 var clockSpeed = 500
 var speedReduce = 0
 
-var pauses = 0
-var speed_drops = 0
+var pauses = observable.box(0)
+var speed_drops = observable.box(0)
 
 document.onkeydown = (e => {
   const heading_keys = {
@@ -51,26 +52,26 @@ document.onkeydown = (e => {
     if(paused.get())
       runClock()
     else {
-      pauses += 1
+      runInAction(() => pauses.set(pauses.get() + 1))
       clearInterval(clock)
     }
     runInAction(() => paused.set(!paused.get()))
   }
 
   else if(e.code === "KeyR") {
+    if(speed_drops.get() > 0 || pauses.get() > 0) { endGame() }
+
     runInAction(() => {
       snake.replace([[0,3],[0,2],[0,1],[0,0]])
       heading.set(2)
     })
-    pauses = 0;
-    speed_drops = 0;
     clockSpeed = 500
     runClock()
   }
 
   else if (e.code === "KeyS") {
     speedReduce += 1
-    speed_drops += 1
+    runInAction(() => speed_drops.set(speed_drops.get() + 1))
   }
 
   else if(Object.keys(heading_keys).indexOf(e.code) !== -1)
@@ -110,13 +111,15 @@ const endGame = () => {
     body: JSON.stringify({ game: {
       snake: JSON.stringify(snake.toJSON()),
       score: snake.length,
-      pauses,
-      speed_drops,
+      pauses: pauses.get(),
+      speed_drops: speed_drops.get(),
     }})
   })
   .then(() => {
-    pauses = 0;
-    speed_drops = 0;
+    runInAction(() => {
+      pauses.set(0);
+      speed_drops.set(0);
+    })
   })
   .then(() => pullLeaders())
 }
@@ -218,4 +221,5 @@ margin-left: auto;
 margin-right: auto;
 `
 
+export { pauses, speed_drops }
 export default observer(Snake);

@@ -34,6 +34,7 @@ var meal = observable(random_choose())
 var heading = observable.box(2)
 var paused = observable.box(false)
 var clockSpeed = 500
+var speedReduce = 0
 
 document.onkeydown = (e => {
   const heading_keys = {
@@ -51,7 +52,7 @@ document.onkeydown = (e => {
     runInAction(() => paused.set(!paused.get()))
   }
 
-  if(e.code === "KeyR") {
+  else if(e.code === "KeyR") {
     runInAction(() => {
       snake.replace([[0,3],[0,2],[0,1],[0,0]])
       heading.set(2)
@@ -60,16 +61,29 @@ document.onkeydown = (e => {
     runClock()
   }
 
-  if(Object.keys(heading_keys).indexOf(e.code) !== -1)
+  else if (e.code === "KeyS") {
+    speedReduce += 1
+  }
+
+  else if(Object.keys(heading_keys).indexOf(e.code) !== -1)
     runInAction(() => heading.set(heading_keys[e.code]))
 })
 
 var clock = null
 const runClock = () => {
   clearInterval(clock)
-  clock = setInterval(() => runInAction(() =>
-    snake.replace([chooseNeighbor(snake[0], heading)].concat(snake.slice(0, -1)))
-  ), clockSpeed)
+  clock = setInterval(() => {
+    if(speedReduce > 0) {
+      while(speedReduce > 0) {
+        clockSpeed = clockSpeed * 1.2
+        speedReduce -= 1
+      }
+      runClock()
+    }
+    runInAction(() =>
+      snake.replace([chooseNeighbor(snake[0], heading)].concat(snake.slice(0, -1)))
+    )
+  }, clockSpeed)
 }
 
 runClock()

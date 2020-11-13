@@ -80,4 +80,5 @@ align-items: center;
 const Scene = styled.div`
 `
 
+export { pullLeaders }
 export default observer(LeaderBoard);

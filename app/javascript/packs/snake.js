@@ -12,6 +12,7 @@ import {
 import { Icon } from "@mdi/react"
 
 import Board from "./board"
+import { pullLeaders } from "./leaderboard"
 
 const random_choose = () => (
   [
@@ -89,7 +90,7 @@ const endGame = () => {
       score: snake.length,
       pauses: 0,
     }})
-  })
+  }).then(() => pullLeaders())
 }
 
 autorun(() => {

@@ -6,8 +6,8 @@ class Player < ApplicationRecord
 
     def as_json(*args)
         super(*args).merge(balance:
-            charges.pluck(:price).reduce(:+) -
+            (charges.pluck(:price).reduce(:+) || 0) -
             games.pluck(:pauses, :speed_drops).map {|p, s| (p||0) * 10 + (s||0) * 25 }.reduce(:+)
-        ) || 0
+        )
     end
 end

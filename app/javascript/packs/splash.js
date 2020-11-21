@@ -1,10 +1,9 @@
+import Lens from './assemble/lens';
 import React from 'react';
 import styled from "styled-components";
 import {observer} from "mobx-react";
-
 import {mdiCreditCardOutline} from "@mdi/js";
 import {Icon} from "@mdi/react";
-
 import SquareCardArea from "./square";
 import ChargeArea from "./charge";
 import {CellPanel} from "./board";
@@ -12,9 +11,7 @@ import Snake from "./snake";
 import LeaderBoard from "./leaderboard";
 import Session, {session} from "./session";
 import {pauses, speed_drops, add_money} from "./snake";
-
-const Splash = () => (
-<Scene>
+const Splash = () => (<Scene>
     <PaddedColumn>
         <Appeal>
             please help us expand<br/>
@@ -26,16 +23,16 @@ const Splash = () => (
         <Line>
             <Icon size={2} path={mdiCreditCardOutline} color="#2d7386" />
             <Balance>your balance: ${session.player ? (
-              (session.player.balance - (pauses.get() * 10) - (speed_drops.get() * 25)) /
-            100.0).toFixed(2) : 0.00}</Balance>
+       (session.player.balance - (pauses.get() * 10) - (speed_drops.get() * 25)) / 
+     100.0).toFixed(2) : 0.00}</Balance>
         </Line>
 
         <SquareCardArea session={session} />
         <ChargeArea session={session} />
 
-        {add_money.get() ?
-        <AddMoney>Add money!</AddMoney> :
-        null}
+        {add_money.get() ? 
+ <AddMoney>Add money!</AddMoney> : 
+ null}
     </PaddedColumn>
 
     <Column>
@@ -59,19 +56,19 @@ const Splash = () => (
         as an open-source codebase.<br/>
         our design plan includes:<br/>
             <ul>
-                <li>scene graph</li>
-                <li>decision graph</li>
-                <li>grid algebra</li>
-                <li>logic blocks</li>
-                <li>procedures</li>
-                <li>channels</li>
-                <li>shapes</li>
-                <li>display renderers</li>
-                <li>memory addressing</li>
-                <li>roles and permissions</li>
-                <li>image processing</li>
-                <li>audio processing</li>
-                <li>clock loops</li>
+                <Lens.li>scene graph</Lens.li>
+                <Lens.li>decision graph</Lens.li>
+                <Lens.li>grid algebra</Lens.li>
+                <Lens.li>logic blocks</Lens.li>
+                <Lens.li>procedures</Lens.li>
+                <Lens.li>channels</Lens.li>
+                <Lens.li>shapes</Lens.li>
+                <Lens.li>display renderers</Lens.li>
+                <Lens.li>memory addressing</Lens.li>
+                <Lens.li>roles and permissions</Lens.li>
+                <Lens.li>image processing</Lens.li>
+                <Lens.li>audio processing</Lens.li>
+                <Lens.li>clock loops</Lens.li>
             </ul>
         </pre>
         <pre>

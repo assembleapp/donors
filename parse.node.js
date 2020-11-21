@@ -3,7 +3,8 @@ var acorn = require('acorn')
 var acornJSX = require('acorn-jsx')
 var astring = require('astring')
 
-fs.readFile('app/javascript/packs/splash.js', 'utf8', (error, response) => {
+var file = 'app/javascript/packs/splash.js'
+fs.readFile(file, 'utf8', (error, response) => {
     if(error) return console.log(error)
     var program = response
     
@@ -50,34 +51,6 @@ ImportSpecifier: function(node, state) {
     add_lines(state, node.loc)
     astring.baseGenerator.ImportSpecifier.bind(this)(node, state)
 },
-JSXAttribute: function(node, state) {
-    add_lines(state, node.loc)
-    astring.baseGenerator.JSXAttribute.bind(this)(node, state)
-},
-JSXClosingElement: function(node, state) {
-    add_lines(state, node.loc)
-    astring.baseGenerator.JSXClosingElement.bind(this)(node, state)
-},
-JSXElement: function(node, state) {
-    add_lines(state, node.loc)
-    astring.baseGenerator.JSXElement.bind(this)(node, state)
-},
-JSXExpressionContainer: function(node, state) {
-    add_lines(state, node.loc)
-    astring.baseGenerator.JSXExpressionContainer.bind(this)(node, state)
-},
-JSXIdentifier: function(node, state) {
-    add_lines(state, node.loc)
-    astring.baseGenerator.JSXIdentifier.bind(this)(node, state)
-},
-JSXOpeningElement: function(node, state) {
-    add_lines(state, node.loc)
-    astring.baseGenerator.JSXOpeningElement.bind(this)(node, state)
-},
-JSXText: function(node, state) {
-    add_lines(state, node.loc)
-    astring.baseGenerator.JSXText.bind(this)(node, state)
-},
 Literal: function(node, state) {
     add_lines(state, node.loc)
     astring.baseGenerator.Literal.bind(this)(node, state)
@@ -95,6 +68,32 @@ ObjectExpression: function(node, state) {
 },
 Program: function(node, state) {
     add_lines(state, node.loc)
+    if(node.body[0].source.value !== "./assemble/lens")
+        node.body = [{
+            "type": "ImportDeclaration",
+            "start": 0,
+            "end": 26,
+            "specifiers": [
+            {
+                "type": "ImportDefaultSpecifier",
+                "start": 7,
+                "end": 12,
+                "local": {
+                "type": "Identifier",
+                "start": 7,
+                "end": 12,
+                "name": "Lens"
+                }
+            }
+            ],
+            "source": {
+            "type": "Literal",
+            "start": 18,
+            "end": 25,
+            "value": "./assemble/lens",
+            "raw": "'./assemble/lens'"
+            }
+        }].concat(node.body)
     astring.baseGenerator.Program.bind(this)(node, state)
 },
 Property: function(node, state) {
@@ -131,9 +130,15 @@ VariableDeclarator: function(node, state) {
         },
         JSXElement: function(node, state) {
             add_lines(state, node.loc)
+
+            if(node.openingElement.name.name === "li") {
+                node.openingElement.name.name = "Lens.li"
+                node.closingElement.name.name = "Lens.li"
+            }
+
             this[node.openingElement.type](node.openingElement, state)
             if(node.children)
-              node.children.forEach(child => this[child.type](child, state) )
+                node.children.forEach(child => this[child.type](child, state) )
             if(node.closingElement)
                 this[node.closingElement.type](node.closingElement, state)
         },
@@ -150,6 +155,22 @@ VariableDeclarator: function(node, state) {
                 ? "/>"
                 : ">"
             )
+        },
+        JSXFragment: function(node, state) {
+            this[node.openingFragment.type](node.openingFragment, state)
+            node.children.forEach(child => this[child.type](child, state))
+            this[node.closingFragment.type](node.closingFragment, state)
+        },
+        JSXOpeningFragment: function(node, state) {
+            state.write("<>")
+        },
+        JSXClosingFragment: function(node, state) {
+            state.write("</>")
+        },
+        JSXMemberExpression: function(node, state) {
+            this[node.object.type](node.object, state)
+            state.write(".")
+            this[node.property.type](node.property, state)
         },
         JSXClosingElement: function(node, state) {
             add_lines(state, node.loc)
@@ -181,10 +202,11 @@ VariableDeclarator: function(node, state) {
     }
 
     var remade = astring.generate(parsed, { generator: jsxGenerator })
-    fs.writeFile('program.js', remade, err => console.log(err))
+    fs.writeFile(file, remade, err => console.log(err))
 })
 
 var add_lines = (state, loc) => {
+    if(!loc) return null
     while(state.output.split("\n").length < loc.start.line)
         state.write("\n")
 

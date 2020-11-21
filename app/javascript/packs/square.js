@@ -40,7 +40,8 @@ class SquareCardArea extends React.Component {
         )}</Observer>
     )
 
-    componentDidMount = () => {        
+    componentDidMount = () => {
+        if(typeof(SquarePaymentForm) === "") { return null }
         this.paymentForm = new SqPaymentForm({
             applicationId: document.querySelector("meta[name='square-key']").content,
             inputClass: 'sq-input',

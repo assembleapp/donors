@@ -3,9 +3,6 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import { observable, autorun, toJS, runInAction } from "mobx"
 
-import { mdiArrowRight } from "@mdi/js"
-import Icon from "@mdi/react"
-
 const SessionField = styled.input`
 background: none;
 border: none;

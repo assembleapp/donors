@@ -1,4 +1,3 @@
-import Lens from './assemble/lens';
 import React from 'react';
 import styled from "styled-components";
 import {observer} from "mobx-react";
@@ -56,19 +55,19 @@ const Splash = () => (<Scene>
         as an open-source codebase.<br/>
         our design plan includes:<br/>
             <ul>
-                <Lens.li>scene graph</Lens.li>
-                <Lens.li>decision graph</Lens.li>
-                <Lens.li>grid algebra</Lens.li>
-                <Lens.li>logic blocks</Lens.li>
-                <Lens.li>procedures</Lens.li>
-                <Lens.li>channels</Lens.li>
-                <Lens.li>shapes</Lens.li>
-                <Lens.li>display renderers</Lens.li>
-                <Lens.li>memory addressing</Lens.li>
-                <Lens.li>roles and permissions</Lens.li>
-                <Lens.li>image processing</Lens.li>
-                <Lens.li>audio processing</Lens.li>
-                <Lens.li>clock loops</Lens.li>
+                <li>scene graph</li>
+                <li>decision graph</li>
+                <li>grid algebra</li>
+                <li>logic blocks</li>
+                <li>procedures</li>
+                <li>channels</li>
+                <li>shapes</li>
+                <li>display renderers</li>
+                <li>memory addressing</li>
+                <li>roles and permissions</li>
+                <li>image processing</li>
+                <li>audio processing</li>
+                <li>clock loops</li>
             </ul>
         </pre>
         <pre>

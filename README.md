@@ -1,28 +1,19 @@
 # Donors
 
-## Getting Started
+```
+rails db:create db:migrate
+rails s
+./bin/webpack-dev-server
+open http://localhost:3000
 
-After you have cloned this repo, run this setup script to set up your machine
-with the necessary dependencies to run and test this app:
+# apply assemble lens.
+node parse.node.js
+```
 
-    % ./bin/setup
-
-It assumes you have a machine equipped with Ruby, Postgres, etc. If not, set up
-your machine with [this script].
-
-[this script]: https://github.com/thoughtbot/laptop
-
-After setting up, you can run the application using [Heroku Local]:
-
-    % heroku local
-
-[Heroku Local]: https://devcenter.heroku.com/articles/heroku-local
-
-## Guidelines
-
-Use the following guides for getting things done, programming well, and
-programming in style.
-
-* [Protocol](http://github.com/thoughtbot/guides/blob/master/protocol)
-* [Best Practices](http://github.com/thoughtbot/guides/blob/master/best-practices)
-* [Style](http://github.com/thoughtbot/guides/blob/master/style)
+You can use a sample bank card:
+```
+4111-1111-1111-1111
+expires   12/22
+Secure code 111
+ZIP code  11111
+```

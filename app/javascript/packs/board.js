@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { observer } from "mobx-react"
 import { observable, runInAction, computed } from "mobx"
 import { SliderPicker } from "react-color"
+import { hot } from 'react-hot-loader'
 
 const Board = observer(({ dimensions, cell, subscenes }) => (
     <Scene dimensions={dimensions}>
@@ -88,4 +89,4 @@ padding-left: 0.5rem;
 `
 
 export { CellPanel }
-export default observer(basis => <Board {...basis} subscenes={{ cell: Cell.get() }} /> );
+export default hot(module)(observer(basis => <Board {...basis} subscenes={{ cell: Cell.get() }} /> ))

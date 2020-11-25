@@ -51,33 +51,6 @@ const Splash = () => (<Scene>
         enabling in-game code changes.
         </pre>
         <CellPanel/>
-        <pre>
-        should our business succeed,<br/>
-        <Code>hierarch</Code> shall be released<br/>
-        as an open-source codebase.<br/>
-        our design plan includes:<br/>
-            <ul>
-                <li>scene graph</li>
-                <li>decision graph</li>
-                <li>grid algebra</li>
-                <li>logic blocks</li>
-                <li>procedures</li>
-                <li>channels</li>
-                <li>shapes</li>
-                <li>display renderers</li>
-                <li>memory addressing</li>
-                <li>roles and permissions</li>
-                <li>image processing</li>
-                <li>audio processing</li>
-                <li>clock loops</li>
-            </ul>
-        </pre>
-        <pre>
-            See our&nbsp;
-            <a style={{color: "#8080a0"}} href="https://github.com/assembleapp/snake/issues/1" >
-                proposed game code
-            </a>.
-        </pre>
     </PaddedColumn>
 </Scene>);
 

@@ -10,6 +10,8 @@ import Snake from "./snake";
 import LeaderBoard from "./leaderboard";
 import Session, {session} from "./session";
 import {pauses, speed_drops, add_money} from "./snake";
+import { hot } from 'react-hot-loader'
+
 const Splash = () => (<Scene>
     <PaddedColumn>
         <Appeal>
@@ -128,4 +130,4 @@ grid-gap: none;
 color: #ededed;
 `;
 
-export default observer(Splash);
+export default hot(module)(observer(Splash));

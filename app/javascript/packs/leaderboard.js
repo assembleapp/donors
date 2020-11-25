@@ -3,6 +3,8 @@ import styled from "styled-components"
 import { observable, autorun, toJS, runInAction } from "mobx"
 import { observer } from "mobx-react"
 
+import { hot } from 'react-hot-loader'
+
 // import {
 // } from "@mdi/js"
 import { Icon } from "@mdi/react"
@@ -47,7 +49,7 @@ border-radius: 4px;
 display: flex;
 align-items: flex-begin;
 font-family: sans-serif;
-color: #8080a0;
+color: #a0c0e0;
 background-color: rgba(192,192,216,0.2);
 font-size: 0.8rem;
 `
@@ -87,4 +89,4 @@ const Scene = styled.div`
 `
 
 export { pullLeaders }
-export default observer(LeaderBoard);
+export default hot(module)(observer(LeaderBoard))

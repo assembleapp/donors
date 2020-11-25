@@ -14,10 +14,6 @@ import { hot } from 'react-hot-loader'
 
 const Splash = () => (<Scene>
     <PaddedColumn>
-        <Appeal>
-            please help us expand<br/>
-            beyond our humble beginnings.
-        </Appeal>
 
         <Session/>
 

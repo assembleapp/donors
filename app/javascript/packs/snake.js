@@ -47,7 +47,6 @@ const checkBalance = (price, already) => {
     runInAction(() => add_money.set(true))
     setTimeout(() => runInAction(() => add_money.set(false)), 1000)
   }
-  console.log("balance", able)
   return able
 }
 

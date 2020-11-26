@@ -1,12 +1,12 @@
 import React from "react"
 import styled from "styled-components"
 
-// const li = styled.li`
+// const pre = styled.pre`
 // border: 1px solid #ee4a0a;
 // `
 
-const li = ({children}) => (
-    <input
+const pre = ({children}) => (
+    <textarea
     key={children}
     style={{ display: "block" }}
     type="text"
@@ -15,6 +15,6 @@ const li = ({children}) => (
     />
 )
 
-const Lens = { li }
+const Lens = { pre }
 
 export default Lens

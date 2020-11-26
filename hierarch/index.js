@@ -23,7 +23,7 @@ responder.get("/go", (call, response) => {
 })
 
 responder.post("/change", (call, response) => {
-    console.log(call.body)
+    go(call.body)
     response.send(JSON.stringify(call.body))
 })
 

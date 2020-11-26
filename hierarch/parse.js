@@ -3,7 +3,7 @@ var acorn = require('acorn')
 var acornJSX = require('acorn-jsx')
 var astring = require('astring')
 
-const go = () => {
+const go = (change = null) => {
     var sourceAddress = __dirname + '/../app/javascript/packs/charge.js'
     fs.readFile(sourceAddress, 'utf8', (error, response) => {
         if(error) return console.log(error)
@@ -197,6 +197,30 @@ const go = () => {
                         },
                     })
                     node.closingElement.name.name = "Lens.change"
+                }
+
+                if(node.openingElement.name.type === "JSXMemberExpression" &&
+                    node.openingElement.name.object.name === "Lens" &&
+                    node.openingElement.name.property.name === "change"
+                ) {
+                    if(change &&
+                        change.code
+                        && change.source === sourceAddress.split("../").slice(-1)[0] &&
+                        change.upgrade
+                    ) {
+                        if(node.openingElement.attributes.some(a =>
+                            a.name.name === 'source' &&
+                            a.value.value === sourceAddress.split("../").slice(-1)[0]
+                        )) {
+                            if(node.openingElement.attributes.some(a =>
+                                a.name.name === "code" &&
+                                a.value.value === change.code
+                            )) {
+                                node.children[0].value = change.upgrade
+                                node.children[0].raw = change.upgrade
+                            }
+                        }
+                    }
                 }
 
                 this[node.openingElement.type](node.openingElement, state)

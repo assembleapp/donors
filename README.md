@@ -1,13 +1,21 @@
 # Donors
 
 ```
+gem install bundler
+bundle
+yarn
 rails db:create db:migrate
+
+# run in parallel:
 rails s
 ./bin/webpack-dev-server
-open http://localhost:3000
+node hierarch.js
+```
 
-# apply assemble lens.
-node parse.node.js
+and, on Mac OS:
+
+```
+open http://localhost:3000
 ```
 
 You can use a sample bank card:

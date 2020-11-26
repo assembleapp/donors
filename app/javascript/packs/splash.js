@@ -90,6 +90,17 @@ const PaddedColumn = styled(Column)`
 padding: 1rem;
 `;
 
+// https://stackoverflow.com/questions/1484506/random-color-generator
+// function getRandomColor() {
+//     var letters = '0123456789ABCDEF';
+//     var color = '#';
+//     for (var i = 0; i < 6; i++) {
+//       color += letters[Math.floor(Math.random() * 16)];
+//     }
+//     return color;
+//   }
+// background-color: ${() => getRandomColor()};
+
 const Scene = styled.div`
 background-color: #282c34;
 min-height: 100vh;

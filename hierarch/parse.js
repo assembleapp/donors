@@ -4,7 +4,7 @@ var acornJSX = require('acorn-jsx')
 var astring = require('astring')
 
 const go = () => {
-    var sourceAddress = __dirname + '/../app/javascript/packs/splash.js'
+    var sourceAddress = __dirname + '/../app/javascript/packs/board.js'
     fs.readFile(sourceAddress, 'utf8', (error, response) => {
         if(error) return console.log(error)
         var program = response
@@ -14,15 +14,25 @@ const go = () => {
         // fs.writeFile('program.json', JSON.stringify(parsed, null, 2), err => console.log(err))
         
         var jsxGenerator = {
-
-
+            ArrayExpression: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.ArrayExpression.bind(this)(node, state)
+            },
             ArrowFunctionExpression: function(node, state) {
                 add_lines(state, node.loc)
                 astring.baseGenerator.ArrowFunctionExpression.bind(this)(node, state)
             },
+            AssignmentExpression: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.AssignmentExpression.bind(this)(node, state)
+            },
             BinaryExpression: function(node, state) {
                 add_lines(state, node.loc)
                 astring.baseGenerator.BinaryExpression.bind(this)(node, state)
+            },
+            BlockStatement: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.BlockStatement.bind(this)(node, state)
             },
             CallExpression: function(node, state) {
                 add_lines(state, node.loc)
@@ -35,6 +45,18 @@ const go = () => {
             ExportDefaultDeclaration: function(node, state) {
                 add_lines(state, node.loc)
                 astring.baseGenerator.ExportDefaultDeclaration.bind(this)(node, state)
+            },
+            ExpressionStatement: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.ExpressionStatement.bind(this)(node, state)
+            },
+            ExportNamedDeclaration: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.ExportNamedDeclaration.bind(this)(node, state)
+            },
+            IfStatement: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.IfStatement.bind(this)(node, state)
             },
             Identifier: function(node, state) {
                 add_lines(state, node.loc)
@@ -64,7 +86,10 @@ const go = () => {
                 add_lines(state, node.loc)
                 // astring.baseGenerator.ObjectExpression.bind(this)(node, state)
                 state.write("{")
-                node.properties.forEach(prop => this[prop.type](prop, state))
+                node.properties.forEach(prop => {
+                    this[prop.type](prop, state)
+                    state.write(",")
+                })
                 state.write("}")
             },
             Program: function(node, state) {
@@ -101,6 +126,10 @@ const go = () => {
                 add_lines(state, node.loc)
                 astring.baseGenerator.Property.bind(this)(node, state)
             },
+            SpreadElement: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.SpreadElement.bind(this)(node, state)
+            },
             TaggedTemplateExpression: function(node, state) {
                 add_lines(state, node.loc)
                 astring.baseGenerator.TaggedTemplateExpression.bind(this)(node, state)
@@ -121,7 +150,14 @@ const go = () => {
                 add_lines(state, node.loc)
                 astring.baseGenerator.VariableDeclarator.bind(this)(node, state)
             },
-
+            formatSequence: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.formatSequence.bind(this)(node, state)
+            },
+            ObjectPattern: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.ObjectPattern.bind(this)(node, state)
+            },
 
             ParenthesizedExpression: function(node, state) {
                 add_lines(state, node.loc)
@@ -132,7 +168,7 @@ const go = () => {
             JSXElement: function(node, state) {
                 add_lines(state, node.loc)
 
-                if(node.openingElement.name.name === "pre") {
+                if(node.openingElement.name.name === "Heading") {
                     node.openingElement.name.name = "Lens.pre"
                     node.closingElement.name.name = "Lens.pre"
                 }
@@ -188,8 +224,8 @@ const go = () => {
                 state.write(node.name)
             },
             JSXAttribute: function(node, state) {
-                add_lines(state, node.loc)
                 state.write(" ")
+                add_lines(state, node.loc)
                 this[node.name.type](node.name, state)
                 state.write("=")
                 this[node.value.type](node.value, state)
@@ -198,6 +234,12 @@ const go = () => {
                 add_lines(state, node.loc)
                 state.write("{")
                 this[node.expression.type](node.expression, state)
+                state.write("}")
+            },
+            JSXSpreadAttribute: function(node, state) {
+                add_lines(state, node.loc)
+                state.write("{...")
+                this[node.argument.type](node.argument, state)
                 state.write("}")
             },
         }
@@ -214,7 +256,7 @@ var add_lines = (state, loc) => {
 
     if(state.output.split("\n").length == loc.start.line) {
         lines = () => state.output.split("\n")
-        while(lines()[lines().length-1].length + 1 < loc.start.column) {
+        while(lines()[lines().length-1].length + 1 <= loc.start.column) {
             state.write(" ")
         }
     }

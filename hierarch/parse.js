@@ -103,25 +103,23 @@ const go = () => {
                         "type": "ImportDeclaration",
                         "start": 0,
                         "end": 26,
-                        "specifiers": [
-                        {
+                        "specifiers": [{
                             "type": "ImportDefaultSpecifier",
                             "start": 7,
                             "end": 12,
                             "local": {
-                            "type": "Identifier",
-                            "start": 7,
-                            "end": 12,
-                            "name": "Lens"
+                                "type": "Identifier",
+                                "start": 7,
+                                "end": 12,
+                                "name": "Lens"
                             }
-                        }
-                        ],
+                        }],
                         "source": {
-                        "type": "Literal",
-                        "start": 18,
-                        "end": 25,
-                        "value": "./assemble/lens",
-                        "raw": "'./assemble/lens'"
+                            "type": "Literal",
+                            "start": 18,
+                            "end": 25,
+                            "value": "./assemble/lens",
+                            "raw": "'./assemble/lens'"
                         }
                     }].concat(node.body)
                 astring.baseGenerator.Program.bind(this)(node, state)
@@ -173,8 +171,32 @@ const go = () => {
                 add_lines(state, node.loc)
 
                 if(node.openingElement.name.name === "ChargeCard") {
-                    node.openingElement.name.name = "Lens.pre"
-                    node.closingElement.name.name = "Lens.pre"
+                    node.openingElement.name.name = "Lens.change"
+                    node.openingElement.attributes = node.openingElement.attributes.concat({
+                        type: "JSXAttribute",
+                        name: {
+                            type: "JSXIdentifier",
+                            name: "source",
+                        },
+                        value: {
+                            type: "Literal",
+                            value: sourceAddress.split("../").slice(-1)[0],
+                            raw: `'${sourceAddress.split("../").slice(-1)[0]}'`,
+                        },
+                    })
+                    node.openingElement.attributes = node.openingElement.attributes.concat({
+                        type: "JSXAttribute",
+                        name: {
+                            type: "JSXIdentifier",
+                            name: "code",
+                        },
+                        value: {
+                            type: "Literal",
+                            value: "abcd",
+                            raw: `'${"abcd"}'`,
+                        },
+                    })
+                    node.closingElement.name.name = "Lens.change"
                 }
 
                 this[node.openingElement.type](node.openingElement, state)

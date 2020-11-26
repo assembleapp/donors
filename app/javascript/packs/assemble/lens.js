@@ -1,20 +1,31 @@
 import React from "react"
 import styled from "styled-components"
 
-// const pre = styled.pre`
-// border: 1px solid #ee4a0a;
-// `
-
-const pre = ({children}) => (
+const change = ({children, source, code}) => (
     <textarea
     key={children}
     style={{ display: "block" }}
     type="text"
     value={children}
-    onChange={(e) => console.log(e.target.value)}
+    onChange={(e) => fetch("http://0.0.0.0:4321/change", {
+        method: "POST",
+        source,
+        code,
+        body: JSON.stringify({
+            upgrade: e.target.value,
+            source,
+            code,
+        }),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.text())
+    .then(response => console.log(response))}
     />
 )
 
-const Lens = { pre }
+const Lens = { change }
 
 export default Lens

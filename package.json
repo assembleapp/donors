@@ -25,6 +25,7 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "body-parser": "^1.19.0",
     "express-reload": "^1.2.0",
     "webpack-dev-server": "^3.11.0"
   }

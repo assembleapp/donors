@@ -3,8 +3,8 @@ var acorn = require('acorn')
 var acornJSX = require('acorn-jsx')
 var astring = require('astring')
 
-var file = 'app/javascript/packs/splash.js'
-fs.readFile(file, 'utf8', (error, response) => {
+var sourceAddress = '../app/javascript/packs/splash.js'
+fs.readFile(sourceAddress, 'utf8', (error, response) => {
     if(error) return console.log(error)
     var program = response
     
@@ -202,7 +202,7 @@ VariableDeclarator: function(node, state) {
     }
 
     var remade = astring.generate(parsed, { generator: jsxGenerator })
-    fs.writeFile(file, remade, err => console.log(err))
+    fs.writeFile(sourceAddress, remade, err => console.log(err))
 })
 
 var add_lines = (state, loc) => {

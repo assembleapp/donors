@@ -4,7 +4,7 @@ var acornJSX = require('acorn-jsx')
 var astring = require('astring')
 
 const go = () => {
-    var sourceAddress = __dirname + '/../app/javascript/packs/board.js'
+    var sourceAddress = __dirname + '/../app/javascript/packs/charge.js'
     fs.readFile(sourceAddress, 'utf8', (error, response) => {
         if(error) return console.log(error)
         var program = response
@@ -77,6 +77,10 @@ const go = () => {
             Literal: function(node, state) {
                 add_lines(state, node.loc)
                 astring.baseGenerator.Literal.bind(this)(node, state)
+            },
+            LogicalExpression: function(node, state) {
+                add_lines(state, node.loc)
+                astring.baseGenerator.LogicalExpression.bind(this)(node, state)
             },
             MemberExpression: function(node, state) {
                 add_lines(state, node.loc)
@@ -168,7 +172,7 @@ const go = () => {
             JSXElement: function(node, state) {
                 add_lines(state, node.loc)
 
-                if(node.openingElement.name.name === "Heading") {
+                if(node.openingElement.name.name === "ChargeCard") {
                     node.openingElement.name.name = "Lens.pre"
                     node.closingElement.name.name = "Lens.pre"
                 }

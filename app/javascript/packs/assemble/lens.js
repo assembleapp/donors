@@ -18,7 +18,7 @@ class change extends React.Component {
                 fetch("http://0.0.0.0:4321/change", {
                     method: "POST",
                     body: JSON.stringify({
-                        upgrade: this.state.value,
+                        upgrade: this.state.value || this.props.children,
                         source: this.props.source,
                         code: this.props.code,
                     }),

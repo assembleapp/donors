@@ -17,7 +17,7 @@ responder.get("/sources", (call, response) => {
     response.send("/app/javascript/packs/splash.js")
 })
 
-responder.get("/go", (call, response) => {
+responder.post("/go", (call, response) => {
     go()
     response.send("gone.")
 })

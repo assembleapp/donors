@@ -9,8 +9,6 @@ const change = ({children, source, code}) => (
     value={children}
     onChange={(e) => fetch("http://0.0.0.0:4321/change", {
         method: "POST",
-        source,
-        code,
         body: JSON.stringify({
             upgrade: e.target.value,
             source,

@@ -192,7 +192,20 @@ const cell = (place) => (
 
 const Snake = () => (
   <Scene>
-      <Header>snake -~~~~~o<Red>-&lt;</Red></Header>
+      <Header onClick={() => {
+        fetch("http://0.0.0.0:4321/go", {
+          method: "POST",
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+          },
+        })
+        .then(response => response.text())
+        .then(response => console.log(response))
+      }}>
+        snake -~~~~~o<Red>-&lt;</Red>
+      </Header>
+
       <p>
         <Icon size={1} color="#8080a0" path={mdiChevronUp} style={{marginLeft: "1.5rem"}} />
         <Command style={{ marginLeft: "2rem" }}>[r] reload</Command>

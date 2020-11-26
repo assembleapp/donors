@@ -218,6 +218,11 @@ const go = (change = null) => {
                             )) {
                                 node.children[0].value = change.upgrade
                                 node.children[0].raw = change.upgrade
+
+                                node.openingElement.name.type = 'JSXIdentifier'
+                                node.openingElement.name.name = 'ChargeCard'
+                                node.closingElement.name.type = 'JSXIdentifier'
+                                node.closingElement.name.name = 'ChargeCard'
                             }
                         }
                     }

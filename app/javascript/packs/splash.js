@@ -39,15 +39,6 @@ const Splash = () => (<Scene>
     <Column>
         <Snake/>
     </Column>
-
-    <PaddedColumn>
-        <pre>
-        programmed using an engine<br/>
-        named <Code>hierarch</Code>,<br/>
-        enabling in-game code changes.
-        </pre>
-        <CellPanel/>
-    </PaddedColumn>
 </Scene>);
 
 
@@ -105,7 +96,7 @@ const Scene = styled.div`
 background-color: #282c34;
 min-height: 100vh;
 display: grid;
-grid-template-columns: auto 1fr 2fr auto;
+grid-template-columns: auto 1fr 2fr;
 grid-gap: none;
 color: #ededed;
 `;

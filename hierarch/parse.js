@@ -32,23 +32,15 @@ const go = (change = null) => {
                 if(node.body[0].source.value !== "./assemble/lens")
                     node.body = [{
                         "type": "ImportDeclaration",
-                        "start": 0,
-                        "end": 26,
                         "specifiers": [{
                             "type": "ImportDefaultSpecifier",
-                            "start": 7,
-                            "end": 12,
                             "local": {
                                 "type": "Identifier",
-                                "start": 7,
-                                "end": 12,
                                 "name": "Lens"
                             }
                         }],
                         "source": {
                             "type": "Literal",
-                            "start": 18,
-                            "end": 25,
                             "value": "./assemble/lens",
                             "raw": "'./assemble/lens'"
                         }
@@ -112,6 +104,15 @@ const go = (change = null) => {
                                 node.openingElement.name.name = 'ChargeCard'
                                 node.closingElement.name.type = 'JSXIdentifier'
                                 node.closingElement.name.name = 'ChargeCard'
+
+                                node.openingElement.attributes = node.openingElement.attributes.filter(a => !(
+                                    a.name.name === "source" &&
+                                    a.value.value === source_name
+                                ))
+                                node.openingElement.attributes = node.openingElement.attributes.filter(a => !(
+                                    a.name.name === "code" &&
+                                    a.value.value === change.code
+                                ))
                             }
                         }
                     }

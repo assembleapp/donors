@@ -2,6 +2,7 @@ var fs = require('fs')
 var acorn = require('acorn')
 var acornJSX = require('acorn-jsx')
 var astring = require('astring')
+const prettier = require('prettier')
 
 const go = (change = null) => {
     var sourceAddress = __dirname + '/../app/javascript/packs/charge.js'
@@ -221,7 +222,11 @@ const go = (change = null) => {
             "ObjectPattern",
         ])
 
-        var remade = astring.generate(parsed, { generator: jsxGenerator })
+        var remade = prettier.format(
+            astring.generate(parsed, { generator: jsxGenerator }),
+            { semi: false, parser: "babel" },
+        )
+
         fs.writeFile(sourceAddress, remade, err => console.log(err))
     })
 }

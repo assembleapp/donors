@@ -3,7 +3,6 @@ import React from "react"
 import styled from "styled-components"
 import { observer } from "mobx-react"
 import { observable, runInAction } from "mobx"
-
 import { Icon } from "@mdi/react"
 import { mdiChevronUp } from "@mdi/js"
 
@@ -23,7 +22,7 @@ const ChargeArea = observer(({ session }) =>
           chargeCard()
         }}
       >
-        Charge your bank card
+        Charge your card.
       </ChargeCard>
     </Area>
   ) : (

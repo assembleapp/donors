@@ -13,11 +13,9 @@ const go = (change = null) => {
         var program = response
         
         var Parser = acorn.Parser.extend(acornJSX())
-        var parsed_program = Parser.parse(program, { sourceType: 'module', locations: true, preserveParens: true })
-        // fs.writeFile('program.json', JSON.stringify(parsed_program, null, 2), err => console.log(err))
+        var parsed = Parser.parse(program, { sourceType: 'module', locations: true, preserveParens: true })
+        // fs.writeFile('program.json', JSON.stringify(parsed, null, 2), err => console.log(err))
         
-        var remade_program = change_program(parsed_program, change)
-
         var jsxGenerator = {
             ObjectExpression: function(node, state) {
                 add_lines(state, node.loc)
@@ -222,16 +220,12 @@ const go = (change = null) => {
         ])
 
         var remade = prettier.format(
-            astring.generate(remade_program, { generator: jsxGenerator }),
+            astring.generate(parsed, { generator: jsxGenerator }),
             { semi: false, parser: "babel" },
         )
 
         fs.writeFile(sourceAddress, remade, err => console.log(err))
     })
-}
-
-const change_program = (parsed_program, change) => {
-    parsed_program
 }
 
 var add_lines = (state, loc) => {

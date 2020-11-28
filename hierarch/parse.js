@@ -6,6 +6,8 @@ const prettier = require('prettier')
 
 const go = (change = null) => {
     var sourceAddress = __dirname + '/../app/javascript/packs/charge.js'
+    var source_name = sourceAddress.split("../").slice(-1)[0]
+
     fs.readFile(sourceAddress, 'utf8', (error, response) => {
         if(error) return console.log(error)
         var program = response
@@ -67,22 +69,16 @@ const go = (change = null) => {
                     node.openingElement.name.name = "Lens.change"
                     node.openingElement.attributes = node.openingElement.attributes.concat({
                         type: "JSXAttribute",
-                        name: {
-                            type: "JSXIdentifier",
-                            name: "source",
-                        },
+                        name: { type: "JSXIdentifier", name: "source" },
                         value: {
                             type: "Literal",
-                            value: sourceAddress.split("../").slice(-1)[0],
-                            raw: `'${sourceAddress.split("../").slice(-1)[0]}'`,
+                            value: source_name,
+                            raw: `'${source_name}'`,
                         },
                     })
                     node.openingElement.attributes = node.openingElement.attributes.concat({
                         type: "JSXAttribute",
-                        name: {
-                            type: "JSXIdentifier",
-                            name: "code",
-                        },
+                        name: { type: "JSXIdentifier", name: "code" },
                         value: {
                             type: "Literal",
                             value: "abcd",
@@ -98,12 +94,12 @@ const go = (change = null) => {
                 ) {
                     if(change &&
                         change.code
-                        && change.source === sourceAddress.split("../").slice(-1)[0] &&
+                        && change.source === source_name &&
                         change.upgrade
                     ) {
                         if(node.openingElement.attributes.some(a =>
                             a.name.name === 'source' &&
-                            a.value.value === sourceAddress.split("../").slice(-1)[0]
+                            a.value.value === source_name
                         )) {
                             if(node.openingElement.attributes.some(a =>
                                 a.name.name === "code" &&

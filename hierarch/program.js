@@ -25,8 +25,11 @@ class Program {
         // this.source = this.source.slice(0, begin) + upgrade + this.source.slice(end)
 
         this.parsed.edit(change)
-        this.parsed = this.parser.parse(changed_source, this.parsed)
         this.source = changed_source
+    }
+
+    reparse() {
+        this.parsed = this.parser.parse(this.source, this.parsed)
     }
 
     query(query) {

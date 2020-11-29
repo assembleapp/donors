@@ -23,6 +23,7 @@ const go = (change = null) => {
         }
 
         // single out an element to change
+        program.reparse()
         matches = program.query(`
         (jsx_element
             open_tag: (jsx_opening_element name: (identifier) @opening-name)
@@ -48,6 +49,7 @@ const go = (change = null) => {
             change.source === source_name &&
             change.upgrade
         ) {
+            program.reparse()
             matches = program.query(`(jsx_element
                 open_tag: (
                     jsx_opening_element
@@ -64,21 +66,10 @@ const go = (change = null) => {
                 (#eq? @closing-name "Lens.change")
             ) @element`)
 
-            //     // broken: check against source and code
-            // matches = matches.filter(match =>
-            //     match.captures.filter(c => c.name === "attr").some(c => {
-            //         var attr_name = program.parsed.getText(c.node.children[0])
-            //         var attr_value = program.parsed.getText(c.node.children[
-            //         if(attr_name === "code")
-            //             console.log("code", attr_value)
-            //             //         a.value.value === change.code
-            //         if(attr_name === "source")
-            //             console.log("source", attr_value)
-            //             //     a.value.value === source_name
-            //     })
-
             // `source` and `code` should be unique;
+            // add predicates in the query
             // raise an error if there is more than one match.
+            // check using `change.code` and `source_name`
 
             matches.forEach(m =>
                 console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
@@ -86,41 +77,19 @@ const go = (change = null) => {
 
             matches.forEach(m => {
                 program.replace_in_program_by_node(m.captures.filter(c => c.name === "opening-name")[0].node, "ChargeCard")
-
                 program.replace_in_program_by_node(m.captures.filter(c => c.name === "closing-name")[0].node, "ChargeCard")
             })
 
-            matches.forEach(m =>
-                console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
-            )
-
-            //     // replace children of the element
-            //     program.replace_in_program_by_node(
-            //         match.captures.filter(c => c.name === "children")[0].node,
-            //         change.upgrade
-            //     )
-
             matches.forEach(m => {
+                // replace children of the element
+                program.replace_in_program_by_node(
+                    m.captures.filter(c => c.name === "children")[0].node,
+                    change.upgrade
+                )
+                // drop opening element attributes
                 program.replace_in_program_by_node(m.captures.filter(c => c.name === "source")[0].node)
-            })
-            matches.forEach(m =>
-                console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
-            )
-            matches.forEach(m => {
                 program.replace_in_program_by_node(m.captures.filter(c => c.name === "code")[0].node)
             })
-            //     // broken: drop opening element attributes
-            //     match.captures.filter(c => c.name === "attr").reverse().forEach(c => {
-            //         var attr_name = program.parsed.getText(c.node.children[0])
-            //         if(attr_name === "code" || attr_name === "source")
-            //             program.replace_in_program_by_node(source, c.node, "")
-            //     })
-
-            matches.forEach(m =>
-                console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
-            )
-
-            // })
         }
 
         var remade = program.source

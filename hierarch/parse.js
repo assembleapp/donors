@@ -52,8 +52,8 @@ const go = (change = null) => {
                 open_tag: (
                     jsx_opening_element
                     name: (_) @opening-name
-                    attribute: (jsx_attribute (property_identifier) @source_ "=" (_) @source )
-                    attribute: (jsx_attribute (property_identifier) @code_ "=" (_) @code )
+                    attribute: (jsx_attribute (property_identifier) @source_ "=" (_)) @source
+                    attribute: (jsx_attribute (property_identifier) @code_ "=" (_)) @code
                     )
                 (jsx_text) @children
                 close_tag: (jsx_closing_element name: (_) @closing-name)
@@ -84,17 +84,11 @@ const go = (change = null) => {
                 console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
             )
 
-            matches.forEach(m =>
+            matches.forEach(m => {
                 program.replace_in_program_by_node(m.captures.filter(c => c.name === "opening-name")[0].node, "ChargeCard")
-            )
 
-            matches.forEach(m =>
-                console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
-            )
-
-            matches.forEach(m =>
                 program.replace_in_program_by_node(m.captures.filter(c => c.name === "closing-name")[0].node, "ChargeCard")
-            )
+            })
 
             matches.forEach(m =>
                 console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
@@ -106,12 +100,25 @@ const go = (change = null) => {
             //         change.upgrade
             //     )
 
+            matches.forEach(m => {
+                program.replace_in_program_by_node(m.captures.filter(c => c.name === "source")[0].node)
+            })
+            matches.forEach(m =>
+                console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
+            )
+            matches.forEach(m => {
+                program.replace_in_program_by_node(m.captures.filter(c => c.name === "code")[0].node)
+            })
             //     // broken: drop opening element attributes
             //     match.captures.filter(c => c.name === "attr").reverse().forEach(c => {
             //         var attr_name = program.parsed.getText(c.node.children[0])
             //         if(attr_name === "code" || attr_name === "source")
             //             program.replace_in_program_by_node(source, c.node, "")
             //     })
+
+            matches.forEach(m =>
+                console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
+            )
 
             // })
         }

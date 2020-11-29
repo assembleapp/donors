@@ -9,7 +9,7 @@ class Program {
         this.parsed = this.parser.parse(this.source)
     }
 
-    replace_in_program_by_node(node, upgrade) {
+    replace_in_program_by_node(node, upgrade = "") {
         this.replace_in_program_by_indices(node.startIndex, node.endIndex, upgrade)
     }
 

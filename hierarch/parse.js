@@ -43,58 +43,74 @@ const go = (change = null) => {
             x.captures.every(c => parsed.getText(c.node) === "ChargeCard")
         )
         matches.forEach(match => {
-            program = replace_in_program_by_node(program, match.captures.filter(c => c.name === "closing-name")[0].node, "Lens.change")
-
-            // here:
-            // add opening element attributes:
-            // source={source_name}
-            // code="abcd"
-
-            program = replace_in_program_by_node(program, match.captures.filter(c => c.name === "opening-name")[0].node, "Lens.change")
-        })
+            program = replace_in_program_by_node(
+                program, match.captures.filter(c => c.name === "closing-name")[0].node,
+                "Lens.change"
+            )
+            program = replace_in_program_by_node(
+                program, match.captures.filter(c => c.name === "opening-name")[0].node,
+                `Lens.change source="${source_name}" code="abcd"`
+            )
+         })
 
         // restore changed element
         if(change &&
-            // change.code &&
-            // change.source === source_name &&
+            change.code &&
+            change.source === source_name &&
             change.upgrade
         ) {
             parsed = parser.parse(program)
             query = new Parser.Query(JavaScript, `(jsx_element
-                open_tag: (jsx_opening_element name: (nested_identifier) @opening-name)
+                open_tag: (
+                    jsx_opening_element
+                    name: (nested_identifier) @opening-name
+                    attribute: (jsx_attribute (property_identifier) @source_ (#match? @source_ "source") "=" (_) @source )
+                    attribute: (jsx_attribute (property_identifier) @code_ (#match? @code_ "code") "=" (_) @code )
+                    )
+                (jsx_text) @children
                 close_tag: (jsx_closing_element name: (nested_identifier) @closing-name)
-                )`);
+            ) @element`);
 
-            // here: check against source and code.
-            // if(node.openingElement.attributes.some(a =>
-            //     a.name.name === 'source' &&
-            //     a.value.value === source_name
-            // )) {
-            //     if(node.openingElement.attributes.some(a =>
-            //         a.name.name === "code" &&
-            //         a.value.value === change.code
-            //     )) {
-            //         node.children[0].value = change.upgrade
-            matches = query.matches(parsed.rootNode).filter(x =>
-                x.captures.every(c => parsed.getText(c.node) === "Lens.change")
-            )
-            matches.forEach(match => {
-                program = replace_in_program_by_node(program, match.captures.filter(c => c.name === "closing-name")[0].node, "ChargeCard")
+                //     (#match? @opening-name "Lens\.change")
+                // (#match? @closing-name "Lens\.change")
 
-                // here: replace children of the element.
+            matches = query.matches(parsed.rootNode)
+            console.log(matches[0].captures.map(c => parsed.getText(c.node)))
+            // matches = query.matches(parsed.rootNode).filter(x =>
+            //     x.captures.some(c => c.name.match(/-name$/) && parsed.getText(c.node) === "Lens.change")
+            // )
+            //     matches.forEach(match => {
+            //         // broken: check against source and code
+            //         match.captures.filter(c => c.name === "attr").some(c => {
+            //             var attr_name = parsed.getText(c.node.children[0])
+            //             var attr_value = parsed.getText(c.node.children[2])
 
-                // drop opening element attributes:
-                // node.openingElement.attributes = node.openingElement.attributes.filter(a => !(
-                //     a.name.name === "source" &&
-                //     a.value.value === source_name
-                // ))
-                // node.openingElement.attributes = node.openingElement.attributes.filter(a => !(
-                //     a.name.name === "code" &&
-                //     a.value.value === change.code
-                // ))
+            //             if(attr_name === "code")
+            //                 console.log("code", attr_value)
+            //                 //         a.value.value === change.code
+            //             if(attr_name === "source")
+            //                 console.log("source", attr_value)
+            //                 //     a.value.value === source_name
+            //         })
 
-                program = replace_in_program_by_node(program, match.captures.filter(c => c.name === "opening-name")[0].node, "ChargeCard")
-            })
+            //     program = replace_in_program_by_node(program, match.captures.filter(c => c.name === "closing-name")[0].node, "ChargeCard")
+
+            //     // broken: replace children of the element
+            //     program = replace_in_program_by_node(
+            //         program,
+            //         match.captures.filter(c => c.name === "children")[0].node,
+            //         change.upgrade
+            //     )
+
+            //     // broken: drop opening element attributes
+            //     match.captures.filter(c => c.name === "attr").reverse().forEach(c => {
+            //         var attr_name = parsed.getText(c.node.children[0])
+            //         if(attr_name === "code" || attr_name === "source")
+            //             program = replace_in_program_by_node(program, c.node, "")
+            //     })
+
+            //     program = replace_in_program_by_node(program, match.captures.filter(c => c.name === "opening-name")[0].node, "ChargeCard")
+            // })
         }
 
         var remade = program

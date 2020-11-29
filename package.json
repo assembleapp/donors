@@ -9,9 +9,6 @@
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.2.1",
-    "acorn": "^8.0.4",
-    "acorn-jsx": "^5.3.1",
-    "astring": "^1.4.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "express": "^4.17.1",
     "mobx": "^6.0.1",
@@ -21,13 +18,14 @@
     "react-color": "^2.18.1",
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.13.0",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "tree-sitter": "^0.17.1",
+    "tree-sitter-javascript": "^0.16.0"
   },
   "version": "0.1.0",
   "devDependencies": {
     "body-parser": "^1.19.0",
     "express-reload": "^1.2.0",
-    "prettier": "^2.2.0",
     "webpack-dev-server": "^3.11.0"
   }
 }

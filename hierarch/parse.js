@@ -51,38 +51,56 @@ const go = (change = null) => {
             matches = program.query(`(jsx_element
                 open_tag: (
                     jsx_opening_element
-                    name: (nested_identifier) @opening-name
-                    attribute: (jsx_attribute (property_identifier) @source_ (#match? @source_ "source") "=" (_) @source )
-                    attribute: (jsx_attribute (property_identifier) @code_ (#match? @code_ "code") "=" (_) @code )
+                    name: (_) @opening-name
+                    attribute: (jsx_attribute (property_identifier) @source_ "=" (_) @source )
+                    attribute: (jsx_attribute (property_identifier) @code_ "=" (_) @code )
                     )
                 (jsx_text) @children
-                close_tag: (jsx_closing_element name: (nested_identifier) @closing-name)
+                close_tag: (jsx_closing_element name: (_) @closing-name)
+
+                (#eq? @source_ "source")
+                (#eq? @code_ "code")
+                (#eq? @opening-name "Lens.change")
+                (#eq? @closing-name "Lens.change")
             ) @element`)
 
-            // (#match? @opening-name "Lens\.change")
-            // (#match? @closing-name "Lens\.change")
+            //     // broken: check against source and code
+            // matches = matches.filter(match =>
+            //     match.captures.filter(c => c.name === "attr").some(c => {
+            //         var attr_name = program.parsed.getText(c.node.children[0])
+            //         var attr_value = program.parsed.getText(c.node.children[
+            //         if(attr_name === "code")
+            //             console.log("code", attr_value)
+            //             //         a.value.value === change.code
+            //         if(attr_name === "source")
+            //             console.log("source", attr_value)
+            //             //     a.value.value === source_name
+            //     })
 
-            console.log(matches[0].captures.map(c => program.parsed.getText(c.node)))
-            // matches = query.matches(program.parsed.rootNode).filter(x =>
-            //     x.captures.some(c => c.name.match(/-name$/) && program.parsed.getText(c.node) === "Lens.change")
-            // )
-            //     matches.forEach(match => {
-            //         // broken: check against source and code
-            //         match.captures.filter(c => c.name === "attr").some(c => {
-            //             var attr_name = program.parsed.getText(c.node.children[0])
-            //             var attr_value = program.parsed.getText(c.node.children[2])
+            // `source` and `code` should be unique;
+            // raise an error if there is more than one match.
 
-            //             if(attr_name === "code")
-            //                 console.log("code", attr_value)
-            //                 //         a.value.value === change.code
-            //             if(attr_name === "source")
-            //                 console.log("source", attr_value)
-            //                 //     a.value.value === source_name
-            //         })
+            matches.forEach(m =>
+                console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
+            )
 
-            //     program.replace_in_program_by_node(match.captures.filter(c => c.name === "closing-name")[0].node, "ChargeCard")
+            matches.forEach(m =>
+                program.replace_in_program_by_node(m.captures.filter(c => c.name === "opening-name")[0].node, "ChargeCard")
+            )
 
-            //     // broken: replace children of the element
+            matches.forEach(m =>
+                console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
+            )
+
+            matches.forEach(m =>
+                program.replace_in_program_by_node(m.captures.filter(c => c.name === "closing-name")[0].node, "ChargeCard")
+            )
+
+            matches.forEach(m =>
+                console.log(m.captures.map(c => [c.name, c.node.startIndex, c.node.endIndex, program.parsed.getText(c.node)]))
+            )
+
+            //     // replace children of the element
             //     program.replace_in_program_by_node(
             //         match.captures.filter(c => c.name === "children")[0].node,
             //         change.upgrade
@@ -95,7 +113,6 @@ const go = (change = null) => {
             //             program.replace_in_program_by_node(source, c.node, "")
             //     })
 
-            //     program.replace_in_program_by_node(match.captures.filter(c => c.name === "opening-name")[0].node, "ChargeCard")
             // })
         }
 

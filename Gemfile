@@ -5,19 +5,16 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-ruby "2.6.3"
-
+ruby "2.7.0"
 
 gem "autoprefixer-rails"
 gem "bootsnap", require: false
-gem "honeybadger"
 gem "pg"
 gem "puma"
 gem "rack-canonical-host"
 gem "rails", "~> 6.0.0"
 gem "recipient_interceptor"
 gem "sassc-rails"
-gem "skylight"
 gem "sprockets", ">= 3.0.0"
 gem "square.rb"
 gem "title"

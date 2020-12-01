@@ -1,0 +1,75 @@
+version: "2.1"
+
+services:
+  # clock:
+  #   command: bundle exec clockwork util/clock.rb
+  #   image: assemble/donors
+  #   links:
+  #     - db
+  #   volumes:
+  #     - .:/app
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    expose:
+      - 5432
+
+  web:
+    build: .
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - RACK_ENV=development
+      - RAILS_ENV=development
+      - WEBPACKER_DEV_SERVER_HOST=webpack
+    env_file: .env
+    image: assemble/donors
+    command: bundle exec rails s -b 0.0.0.0
+    ports:
+      - "$PORT:3000"
+    links:
+      - db
+      - webpack
+    volumes:
+      - .:/app
+      # Docker access on Linux
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Docker access on OS X
+      - ${DOCKER_CERT_PATH:-/certs}:${DOCKER_CERT_PATH:-/certs}
+
+  webpack:
+    env_file: .env
+    image: assemble/donors
+    command: ./bin/webpack-dev-server
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    volumes:
+      - .:/app
+    ports:
+      - 3035:3035
+
+  hierarch:
+    image: assemble/donors
+    command: node hierarch.js
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - 4321:4321
+
+  # worker:
+  #   env_file: .env
+  #   image: assemble/donors
+  #   command: rake jobs:work
+  #   links:
+  #     - db
+  #   volumes:
+  #     - .:/app
+  #     # Docker access on Linux
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     # Docker access on OS X
+  #     - ${DOCKER_CERT_PATH:-/certs}:${DOCKER_CERT_PATH:-/certs}

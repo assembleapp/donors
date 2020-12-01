@@ -12,6 +12,31 @@ import Session, {session} from "./session";
 import {pauses, speed_drops, add_money} from "./snake";
 import { hot } from 'react-hot-loader'
 
+console.log("changed much, i guess!")
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { hasError: false };
+    }
+  
+    static getDerivedStateFromError(error) {
+      return { hasError: true };
+    }
+  
+    componentDidCatch(error, errorInfo) {
+      console.log(error, errorInfo);
+    }
+  
+    render() {
+      if (this.state.hasError) {
+        // You can render any custom fallback UI
+        return <div>An error occured; please check logs.</div>;
+      }
+  
+      return this.props.children; 
+    }
+  }
+
 const Splash = () => (<Scene>
     <PaddedColumn>
 
@@ -24,7 +49,10 @@ const Splash = () => (<Scene>
      100.0).toFixed(2) : 0.00}</Balance>
         </Line>
 
-        <SquareCardArea session={session} />
+        <ErrorBoundary>
+            <SquareCardArea session={session} />
+        </ErrorBoundary>
+
         <ChargeArea session={session} />
 
         {add_money.get() ? 

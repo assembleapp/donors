@@ -222,6 +222,13 @@ const Snake = () => (
       cell={cell}
       />
       <Header>Score: {snake.length}</Header>
+      <p>
+        <pre>
+        More commands coming soon!
+        </pre>
+        <Command>* Shed skin (become smaller by 1)</Command><br/>
+        <Command>* Expand grid (more roaming space)</Command><br/>
+      </p>
   </Scene>
 )
 
